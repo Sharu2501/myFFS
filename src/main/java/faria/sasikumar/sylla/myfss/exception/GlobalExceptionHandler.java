@@ -1,4 +1,4 @@
-package faria.sasikumar.sylla.myffs.exception;
+package faria.sasikumar.sylla.myfss.exception;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,4 +1,4 @@
-package faria.sasikumar.sylla.myffs.config;
+package faria.sasikumar.sylla.myfss.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

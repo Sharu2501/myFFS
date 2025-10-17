@@ -1,4 +1,4 @@
-package faria.sasikumar.sylla.myffs.controller;
+package faria.sasikumar.sylla.myfss.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

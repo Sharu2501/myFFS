@@ -1,4 +1,4 @@
-package faria.sasikumar.sylla.myffs.model;
+package faria.sasikumar.sylla.myfss.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

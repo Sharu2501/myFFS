@@ -1,6 +1,6 @@
-package faria.sasikumar.sylla.myffs.repository;
+package faria.sasikumar.sylla.myfss.repository;
 
-import faria.sasikumar.sylla.myffs.model.Mission;
+import faria.sasikumar.sylla.myfss.model.Mission;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

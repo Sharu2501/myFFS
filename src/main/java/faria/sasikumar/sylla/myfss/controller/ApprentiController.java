@@ -1,8 +1,8 @@
-package faria.sasikumar.sylla.myffs.controller;
+package faria.sasikumar.sylla.myfss.controller;
 
-import faria.sasikumar.sylla.myffs.model.Apprenti;
-import faria.sasikumar.sylla.myffs.service.ApprentiService;
-import faria.sasikumar.sylla.myffs.repository.*;
+import faria.sasikumar.sylla.myfss.model.Apprenti;
+import faria.sasikumar.sylla.myfss.service.ApprentiService;
+import faria.sasikumar.sylla.myfss.repository.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

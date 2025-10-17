@@ -1,10 +1,10 @@
-package faria.sasikumar.sylla.myffs;
+package faria.sasikumar.sylla.myfss;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MyFfsApplicationTests {
+class MyFssApplicationTests {
 
     @Test
     void contextLoads() {

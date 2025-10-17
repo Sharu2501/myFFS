@@ -1,7 +1,7 @@
-package faria.sasikumar.sylla.myffs.service;
+package faria.sasikumar.sylla.myfss.service;
 
-import faria.sasikumar.sylla.myffs.model.Apprenti;
-import faria.sasikumar.sylla.myffs.repository.ApprentiRepository;
+import faria.sasikumar.sylla.myfss.model.Apprenti;
+import faria.sasikumar.sylla.myfss.repository.ApprentiRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;

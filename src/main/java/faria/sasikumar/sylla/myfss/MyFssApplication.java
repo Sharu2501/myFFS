@@ -1,13 +1,13 @@
-package faria.sasikumar.sylla.myffs;
+package faria.sasikumar.sylla.myfss;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MyFfsApplication {
+public class MyFssApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MyFfsApplication.class, args);
+        SpringApplication.run(MyFssApplication.class, args);
     }
 
 }

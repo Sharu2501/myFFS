@@ -1,23 +1,23 @@
-package faria.sasikumar.sylla.myffs.model;
+package faria.sasikumar.sylla.myfss.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Setter
 @Getter
 @Entity
-public class Visite {
+public class Evaluation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDate date;
-    private String format;
+    private String memoire;
+    private String theme;
+    private double noteFinaleMemoire;
+    private double noteFinaleSoutenance;
     private String commentaires;
 
-    @ManyToOne
+    @OneToOne
     private Apprenti apprenti;
 
 }
