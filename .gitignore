@@ -1,0 +1,51 @@
+# === Maven / Java ===
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# === IDE / STS / Eclipse / IntelliJ / NetBeans ===
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+.idea/
+*.iws
+*.iml
+*.ipr
+
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+.vscode/
+
+# === OS files ===
+.DS_Store
+Thumbs.db
+
+# === Temporary / swap files ===
+*.tmp
+*.swp
+*.swo
+*.bak
+
+# === Spring Boot / DB / Cache / Logs ===
+*.db
+*.h2.db
+*.mv.db
+/logs/

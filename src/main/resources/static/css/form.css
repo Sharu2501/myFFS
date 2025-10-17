@@ -1,0 +1,11 @@
+form {
+    max-width: 450px;
+}
+
+form button {
+    align-self: center;
+}
+
+form label {
+    font-weight: bold;
+}
