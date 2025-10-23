@@ -62,7 +62,6 @@ public class ApprentiController {
 
     @PostMapping("/save")
     public String saveApprenti(@Valid @ModelAttribute Apprenti apprenti, BindingResult result) {
-        log.info("error : " + result);
         if (result.hasErrors()) {
             return "apprenti_form";
         }

@@ -33,7 +33,6 @@ public class ApprentiService {
 
     @Transactional
     public Apprenti createOrUpdateApprenti(Apprenti apprenti) {
-        log.info("update " + apprenti);
         return apprentiRepository.save(apprenti);
     }
 
@@ -47,7 +46,6 @@ public class ApprentiService {
 
     @Transactional
     public void newAcademiqueYear() {
-        log.info("new Year");
         getAllApprentis().forEach(apprenti -> {
             apprenti.addYear();
             apprentiRepository.save(apprenti);
