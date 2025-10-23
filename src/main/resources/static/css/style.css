@@ -94,7 +94,6 @@ header form button:hover {
 /* === FORMULAIRES === */
 form {
     background: rgba(15, 20, 35, 0.85);
-    box-shadow: 0 0 15px rgba(0, 150, 255, 0.3);
     border-radius: 12px;
     padding: 25px;
     width: 400px;

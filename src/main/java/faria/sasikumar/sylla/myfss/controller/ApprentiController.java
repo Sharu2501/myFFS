@@ -3,6 +3,7 @@ package faria.sasikumar.sylla.myfss.controller;
 import faria.sasikumar.sylla.myfss.model.Apprenti;
 import faria.sasikumar.sylla.myfss.service.ApprentiService;
 import faria.sasikumar.sylla.myfss.repository.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import jakarta.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/apprentis")
 public class ApprentiController {
@@ -39,7 +41,7 @@ public class ApprentiController {
 
     @GetMapping("/dashboard")
     public String dashboard(Model model, Principal principal) {
-        List<Apprenti> apprentis = apprentiService.getAllApprentis();
+        List<Apprenti> apprentis = apprentiService.getAllApprentisNoArchived();
         model.addAttribute("apprentis", apprentis);
         model.addAttribute("username", (principal != null) ? principal.getName() : "Invité");
         return "dashboard";
@@ -60,10 +62,25 @@ public class ApprentiController {
 
     @PostMapping("/save")
     public String saveApprenti(@Valid @ModelAttribute Apprenti apprenti, BindingResult result) {
+        log.info("error : " + result);
         if (result.hasErrors()) {
             return "apprenti_form";
         }
         apprentiService.createOrUpdateApprenti(apprenti);
+        return "redirect:/apprentis/dashboard";
+    }
+
+    @PostMapping("/newYear")
+    public String newYear(){
+
+        apprentiService.newAcademiqueYear();
+
+        return "redirect:/apprentis/dashboard";
+    }
+
+    @PostMapping("/archive/{id}")
+    public String archive(@PathVariable Long id ){
+        apprentiService.archive(id);
         return "redirect:/apprentis/dashboard";
     }
 
@@ -78,6 +95,8 @@ public class ApprentiController {
         model.addAttribute("entreprises", entrepriseRepo.findAll());
         return "apprenti_details";
     }
+
+
 
     @GetMapping("/delete/{id}")
     public String deleteApprenti(@PathVariable Long id) {

@@ -20,7 +20,7 @@ public class DashboardController {
 
     @GetMapping({"/", "/dashboard"})
     public String dashboard(Model model, Principal principal) {
-        List<Apprenti> apprentis = apprentiService.getAllApprentis();
+        List<Apprenti> apprentis = apprentiService.getAllApprentisNoArchived();
         model.addAttribute("apprentis", apprentis);
 
         String username = (principal != null) ? principal.getName() : "Invité";

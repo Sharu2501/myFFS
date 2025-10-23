@@ -31,6 +31,7 @@ public class Apprenti {
     private String programme;
     private String majeure;
     private int annee;
+    private boolean archived;
 
     public Apprenti() {
     }
@@ -43,6 +44,13 @@ public class Apprenti {
         this.programme = programme;
         this.majeure = majeure;
         this.annee = annee;
+    }
+
+    public void addYear(){
+        this.annee++;
+        if(annee > 3){
+            this.archived=true;
+        }
     }
 
 }
