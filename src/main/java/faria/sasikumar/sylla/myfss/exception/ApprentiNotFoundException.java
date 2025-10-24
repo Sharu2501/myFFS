@@ -1,4 +1,4 @@
-package faria.sasikumar.sylla.myfss.service.exceptions;
+package faria.sasikumar.sylla.myfss.exception;
 
 /**
  * Exception métier levée lorsqu'un apprenti est introuvable.

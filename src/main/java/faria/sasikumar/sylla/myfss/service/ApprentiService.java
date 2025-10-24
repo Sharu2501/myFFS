@@ -1,6 +1,6 @@
 package faria.sasikumar.sylla.myfss.service;
 
-import faria.sasikumar.sylla.myfss.service.exceptions.ApprentiNotFoundException;
+import faria.sasikumar.sylla.myfss.exception.ApprentiNotFoundException;
 import faria.sasikumar.sylla.myfss.model.Apprenti;
 import faria.sasikumar.sylla.myfss.repository.ApprentiRepository;
 import lombok.extern.slf4j.Slf4j;

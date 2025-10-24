@@ -1,4 +1,4 @@
-package faria.sasikumar.sylla.myfss.service.exceptions;
+package faria.sasikumar.sylla.myfss.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Slf4j
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class RestGlobalExceptionHandler {
 
     @ExceptionHandler(ApprentiNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleApprentiNotFound(ApprentiNotFoundException ex) {
