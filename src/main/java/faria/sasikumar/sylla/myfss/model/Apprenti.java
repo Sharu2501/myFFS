@@ -4,13 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import lombok.Getter;
-import lombok.Setter;
 
-@Setter
-@Getter
 @Entity
 public class Apprenti {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -46,11 +43,84 @@ public class Apprenti {
         this.annee = annee;
     }
 
-    public void addYear(){
+    public void addYear() {
         this.annee++;
-        if(annee > 3){
-            this.archived=true;
+        if (annee > 3) {
+            this.archived = true;
         }
     }
 
+    // --- Getters et Setters ---
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getProgramme() {
+        return programme;
+    }
+
+    public void setProgramme(String programme) {
+        this.programme = programme;
+    }
+
+    public String getMajeure() {
+        return majeure;
+    }
+
+    public void setMajeure(String majeure) {
+        this.majeure = majeure;
+    }
+
+    public int getAnnee() {
+        return annee;
+    }
+
+    public void setAnnee(int annee) {
+        this.annee = annee;
+    }
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
 }
