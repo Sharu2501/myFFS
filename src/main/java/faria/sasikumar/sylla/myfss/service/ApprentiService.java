@@ -3,15 +3,17 @@ package faria.sasikumar.sylla.myfss.service;
 import faria.sasikumar.sylla.myfss.exception.ApprentiNotFoundException;
 import faria.sasikumar.sylla.myfss.model.Apprenti;
 import faria.sasikumar.sylla.myfss.repository.ApprentiRepository;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Slf4j
 @Service
 public class ApprentiService {
+
+    private static final Logger log = LoggerFactory.getLogger(ApprentiService.class);
 
     private final ApprentiRepository apprentiRepository;
 
