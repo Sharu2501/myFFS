@@ -1,6 +1,14 @@
 -- ==============================
 --   CREATION DE LA BASE
 -- ==============================
+DROP TABLE IF EXISTS apprentices;
+DROP TABLE IF EXISTS visits;
+DROP TABLE IF EXISTS missions;
+DROP TABLE IF EXISTS evaluations;
+DROP TABLE IF EXISTS reports;
+DROP TABLE IF EXISTS oral_exams;
+DROP TABLE IF EXISTS masters;
+DROP TABLE IF EXISTS companies;
 
 CREATE DATABASE IF NOT EXISTS apprentices_db;
 USE apprentices_db;

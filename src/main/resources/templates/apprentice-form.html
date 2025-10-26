@@ -10,7 +10,7 @@
 
 <nav class="navbar">
     <div class="nav-container">
-        <h1 class="logo">MyFFS</h1>
+        <h1 class="logo">MyFSS</h1>
         <a th:href="@{/apprentices}" class="btn-back">← Retour au tableau de bord</a>
     </div>
 </nav>
@@ -79,7 +79,7 @@
                     <label for="major">Spécialité <span class="required">*</span></label>
                     <select id="major" th:field="*{major}" required>
                         <option value="">Sélectionnez...</option>
-                        <option th:each="m : ${T(org.myffs.model.enums.Major).values()}"
+                        <option th:each="m : ${T(org.myfss.model.enums.Major).values()}"
                                 th:value="${m}"
                                 th:text="${m}">LSI1
                         </option>

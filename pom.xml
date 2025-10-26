@@ -9,10 +9,10 @@
         <relativePath/>
     </parent>
     <groupId>org</groupId>
-    <artifactId>myFFS</artifactId>
+    <artifactId>myFSS</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>myFFS</name>
-    <description>myFFS</description>
+    <name>myFSS</name>
+    <description>myFSS</description>
     <url/>
     <licenses>
         <license/>
