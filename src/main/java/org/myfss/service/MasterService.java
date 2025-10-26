@@ -17,9 +17,4 @@ public class MasterService {
     public List<Master> getAllMasters() {
         return masterRepository.findAll();
     }
-
-    public Master getMasterById(Long id) {
-        return masterRepository.findById(id)
-                .orElseThrow(() -> new MasterNotFoundException(id));
-    }
 }

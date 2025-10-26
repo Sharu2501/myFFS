@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.myfss.dto.ApprenticeUpdateDTO;
 import org.myfss.model.Apprentice;
 import org.myfss.model.Company;
-import org.myfss.model.enums.Major;
 import org.myfss.service.ApprenticeService;
 import org.myfss.service.CompanyService;
 import org.myfss.service.MasterService;
