@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${apprentice.id != null ? 'Modifier l\'apprenti' : 'Ajouter un apprenti'}">Formulaire</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <h1 class="logo">MyFFS</h1>
+        <a th:href="@{/apprentices}" class="btn-back">← Retour au tableau de bord</a>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="form-header">
+        <h2 th:text="Ajouter un apprenti">Formulaire</h2>
+    </div>
+
+    <form th:action="${'/apprentices/' + apprentice.id}"
+          method="post"
+          th:object="${apprentice}"
+          class="apprentice-form">
+
+    <div class="form-section">
+            <h3>Informations personnelles</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="lastName">Nom <span class="required">*</span></label>
+                    <input type="text" id="lastName" th:field="*{lastName}" maxlength="20" required
+                           pattern="^[A-Za-zÀ-ÖØ-öø-ÿ'\- ]+$">
+                    <span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="firstName">Prénom <span class="required">*</span></label>
+                    <input type="text" id="firstName" th:field="*{firstName}" maxlength="20" required
+                           pattern="^[A-Za-zÀ-ÖØ-öø-ÿ'\- ]+$">
+                    <span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email <span class="required">*</span></label>
+                    <input type="email" id="email" th:field="*{email}" maxlength="50" required>
+                    <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="phoneNumber">Téléphone <span class="required">*</span></label>
+                    <input type="tel" id="phoneNumber" th:field="*{phoneNumber}"
+                           pattern="^(\+\d{1,3}[- ]?)?\d{9,12}$"
+                           placeholder="+33 612345678" required>
+                    <span class="error" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Formation</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="program">Programme <span class="required">*</span></label>
+                    <input type="text" id="program" th:field="*{program}" maxlength="100" required>
+                    <span class="error" th:if="${#fields.hasErrors('program')}" th:errors="*{program}"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="academicYear">Année académique <span class="required">*</span></label>
+                    <input type="text" id="academicYear" th:field="*{academicYear}"
+                           pattern="^[0-9]{4}-[0-9]{4}$"
+                           placeholder="2024-2025" required>
+                    <span class="error" th:if="${#fields.hasErrors('academicYear')}" th:errors="*{academicYear}"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="major">Spécialité <span class="required">*</span></label>
+                    <select id="major" th:field="*{major}" required>
+                        <option value="">Sélectionnez...</option>
+                        <option th:each="m : ${T(org.myffs.model.enums.Major).values()}"
+                                th:value="${m}"
+                                th:text="${m}">LSI1
+                        </option>
+                    </select>
+                    <span class="error" th:if="${#fields.hasErrors('major')}" th:errors="*{major}"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Commentaires</h3>
+            <div class="form-group">
+                <label for="comments">Commentaires</label>
+                <textarea id="comments" th:field="*{comments}" rows="4" maxlength="2000"></textarea>
+                <span class="char-count">0/2000</span>
+            </div>
+
+            <div class="form-group">
+                <label for="tutorFeedback">Retour du tuteur</label>
+                <textarea id="tutorFeedback" th:field="*{tutorFeedback}" rows="4" maxlength="2000"></textarea>
+                <span class="char-count">0/2000</span>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <span th:text="${apprentice.id != null ? 'Enregistrer les modifications' : 'Créer l\'apprenti'}">Enregistrer</span>
+            </button>
+            <a th:href="@{/apprentices}" class="btn btn-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Character counter for textareas
+    document.querySelectorAll('textarea[maxlength]').forEach(textarea => {
+        const counter = textarea.nextElementSibling;
+        textarea.addEventListener('input', () => {
+            counter.textContent = `${textarea.value.length}/${textarea.maxLength}`;
+        });
+        // Initialize
+        counter.textContent = `${textarea.value.length}/${textarea.maxLength}`;
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+-- ==============================
+--   CREATION DE LA BASE
+-- ==============================
+
+CREATE DATABASE IF NOT EXISTS apprentices_db;
+USE apprentices_db;
+
+-- ==============================
+--   TABLE : companies
+-- ==============================
+CREATE TABLE companies (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    social_reason VARCHAR(255),
+    address VARCHAR(255),
+    access_information TEXT
+);
+
+-- ==============================
+--   TABLE : masters
+-- ==============================
+CREATE TABLE masters (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    last_name VARCHAR(255),
+    first_name VARCHAR(255),
+    position VARCHAR(255),
+    email VARCHAR(255),
+    phone_number VARCHAR(255),
+    comments TEXT
+);
+
+-- ==============================
+--   TABLE : oral_exams
+-- ==============================
+CREATE TABLE oral_exams (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    date DATE,
+    grade DOUBLE,
+    comments TEXT
+);
+
+-- ==============================
+--   TABLE : reports
+-- ==============================
+CREATE TABLE reports (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    theme VARCHAR(255),
+    grade DOUBLE,
+    comments TEXT
+);
+
+-- ==============================
+--   TABLE : evaluations
+-- ==============================
+CREATE TABLE evaluations (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    oral_id BIGINT,
+    report_id BIGINT,
+    CONSTRAINT fk_evaluation_oral FOREIGN KEY (oral_id) REFERENCES oral_exams(id),
+    CONSTRAINT fk_evaluation_report FOREIGN KEY (report_id) REFERENCES reports(id)
+);
+
+-- ==============================
+--   TABLE : missions
+-- ==============================
+CREATE TABLE missions (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    keywords VARCHAR(255),
+    profession VARCHAR(255),
+    comments TEXT
+);
+
+-- ==============================
+--   TABLE : visits
+-- ==============================
+CREATE TABLE visits (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    date DATE,
+    format VARCHAR(50),
+    comments TEXT
+);
+
+-- ==============================
+--   TABLE : apprentices
+-- ==============================
+CREATE TABLE apprentices (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    program VARCHAR(255),
+    academic_year VARCHAR(255),
+    major VARCHAR(50),
+    last_name VARCHAR(255),
+    first_name VARCHAR(255),
+    email VARCHAR(255),
+    phone_number VARCHAR(255),
+    company_id BIGINT,
+    masters BIGINT,
+    mission_id BIGINT,
+    visit_id BIGINT,
+    evaluation_id BIGINT,
+    comments TEXT,
+    tutor_feedback TEXT,
+    CONSTRAINT fk_apprentice_company FOREIGN KEY (company_id) REFERENCES companies(id),
+    CONSTRAINT fk_apprentice_master FOREIGN KEY (masters) REFERENCES masters(id),
+    CONSTRAINT fk_apprentice_mission FOREIGN KEY (mission_id) REFERENCES missions(id),
+    CONSTRAINT fk_apprentice_visit FOREIGN KEY (visit_id) REFERENCES visits(id),
+    CONSTRAINT fk_apprentice_evaluation FOREIGN KEY (evaluation_id) REFERENCES evaluations(id)
+);

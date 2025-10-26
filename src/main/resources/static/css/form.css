@@ -1,101 +1,146 @@
-form {
-    max-width: 450px;
+/* Form Page Styles */
+
+.form-header {
+    margin-bottom: 2rem;
 }
 
-form button {
-    align-self: center;
+.form-header h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text);
 }
 
-form label {
-    font-weight: bold;
-}
-
-/* === FORMULAIRE AJOUT APPRENTI === */
-form {
-    background: rgba(15, 20, 35, 0.85);
-    border-radius: 12px;
-    padding: 30px 25px;
-    width: 400px;
-    margin: 30px auto;
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* espace entre les champs */
-}
-
-form label {
-    display: flex;
-    flex-direction: column;
-    font-weight: bold;
-    color: #00baff;
-    font-size: 0.95rem;
-}
-
-form input {
-    padding: 8px 10px;
-    border-radius: 6px;
-    border: 1px solid rgba(0, 100, 255, 0.4);
-    background-color: #0d1526;
-    color: #e0e8ff;
-    outline: none;
-    margin-top: 4px;
-}
-
-form input:focus {
-    border-color: #00b7ff;
-    box-shadow: 0 0 8px #008cff;
-}
-
-/* BOUTON ENREGISTRER */
-form button[type="submit"] {
-    background: linear-gradient(90deg, #003366, #0066cc);
-    border: none;
+/* Form */
+.apprentice-form {
+    background: var(--white);
+    padding: 2rem;
     border-radius: 8px;
-    color: #e0e8ff;
-    font-weight: bold;
-    padding: 10px;
-    margin-top: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 0 10px rgba(0, 150, 255, 0.4);
+    box-shadow: var(--shadow);
 }
 
-form button[type="submit"]:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(90deg, #0055aa, #00aaff);
-    box-shadow: 0 0 20px rgba(0, 200, 255, 0.6);
+/* Form Sections */
+.form-section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
 }
 
-/* BOUTON RETOUR */
-.back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    color: #00baff;
-    font-weight: bold;
-    margin-top: 20px;
-    text-decoration: none;
-    transition: transform 0.3s ease, text-shadow 0.3s ease;
+.form-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
-.back-btn:hover {
-    transform: translateX(-5px);
-    text-shadow: 0 0 10px #00baff, 0 0 20px #008cff;
+.form-section h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 1.5rem;
 }
 
-.back-btn::before {
-    content: '←';
-    display: inline-block;
-    transition: transform 0.3s ease;
+/* Form Grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
 }
 
-.back-btn:hover::before {
-    transform: translateX(-3px);
+/* Form Group */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-/* TITRE DE LA PAGE */
-h2 {
-    color: #00b7ff;
-    text-shadow: 0 0 10px #0077ff, 0 0 20px #001133;
-    text-align: center;
-    margin-bottom: 25px;
+.form-group label {
+    font-weight: 500;
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+}
+
+/* Character Counter */
+.char-count {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    text-align: right;
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+}
+
+.form-actions .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+}
+
+/* Error Styling */
+.form-group .error {
+    color: var(--danger);
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+.form-group input.error,
+.form-group select.error,
+.form-group textarea.error {
+    border-color: var(--danger);
+}
+
+/* Select Styling */
+.form-group select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    padding-right: 2.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .apprentice-form {
+        padding: 1.5rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+        text-align: center;
+    }
 }

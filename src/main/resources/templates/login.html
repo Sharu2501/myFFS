@@ -1,26 +1,30 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Connexion | My Follow-up Student System</title>
+    <title>Connexion</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body>
 
 <div class="login-container">
-    <h2>Connexion à MyFSS - My Follow-up Student System</h2>
-    <form method="post" th:action="@{/login}">
-        <label for="username">Identifiant :</label>
-        <input id="username" name="username" required type="text">
+    <h2>Ravi de vous revoir</h2>
+    <p>Veuillez saisir vos informations pour vous connecter.</p>
 
-        <label for="password">Mot de passe :</label>
-        <input id="password" name="password" required type="password">
+    <form th:action="@{/login}" method="post">
+        <input type="text" name="username" placeholder="Entrez votre email..." required>
+        <input type="password" name="password" placeholder="Mot de passe" required>
+
+        <div class="remember-me">
+            <input type="checkbox" name="remember-me" id="remember">
+            <label for="remember">Se souvenir de moi</label>
+        </div>
 
         <button type="submit">Se connecter</button>
 
-        <div class="error" th:if="${param.error}">Identifiants incorrects</div>
-        <div class="success" th:if="${param.logout}">Déconnexion réussie</div>
+        <div th:if="${param.error}" class="error">Nom d'utilisateur ou mot de passe incorrect.</div>
+        <div th:if="${param.logout}" class="logout">Vous avez été déconnecté avec succès.</div>
     </form>
 </div>
 

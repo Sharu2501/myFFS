@@ -1,69 +1,75 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Tableau de bord | MyFSS - My Follow-up Student System</title>
+    <title>Tableau de bord - Gestion des Apprentis</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/dashboard.css}">
 </head>
 <body>
 
-<header>
-    <div class="welcome-msg">
-        Bonjour <span th:text="${username}"></span>
+<div class="container">
+    <div class="logout-section">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn-logout">Déconnexion</button>
+        </form>
     </div>
-    <form class="logout-form" method="post" th:action="@{/logout}">
-        <button class="logout-btn" title="Déconnexion" type="submit">
-            <svg fill="none" height="32" stroke="#00baff" stroke-linecap="round" stroke-linejoin="round"
-                 stroke-width="2" viewBox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                <polyline points="16 17 21 12 16 7"/>
-                <line x1="21" x2="9" y1="12" y2="12"/>
-                <animate attributeName="stroke" dur="1.5s" repeatCount="indefinite" values="#00baff;#00ffff;#00baff"/>
-            </svg>
-        </button>
-    </form>
-</header>
-<div>
-    <form class="newYear-form" method="post" th:action="@{/apprentis/newYear}">
-
-        <button class="add-btn" title="New Year" type="submit">
-            Nouvelle Année
-        </button>
-    </form>
-</div>
-
-<div class="dashboard-container">
-    <h2>Liste des apprentis</h2>
-
-    <div class="error" th:if="${#lists.isEmpty(apprentis)}">
-        Vous n'avez pas d'apprentis !
+    <div class="header-section">
+        <h2>Gestion des Apprentis</h2>
+        <div class="header-actions">
+            <a th:href="@{/apprentices/new}" class="btn btn-primary">+ Ajouter un apprenti</a>
+        </div>
     </div>
 
-    <div class="table-wrapper" th:if="${!#lists.isEmpty(apprentis)}">
-        <table>
+    <div class="search-section">
+        <form th:action="@{/apprentices/search}" method="get" class="search-form">
+            <input type="text" name="name" placeholder="Nom ou prénom..." class="search-input">
+            <input type="text" name="company" placeholder="Entreprise..." class="search-input">
+            <input type="text" name="missionKeyword" placeholder="Mission..." class="search-input">
+            <input type="text" name="academicYear" placeholder="Année (ex: 2024)..." class="search-input">
+            <button type="submit" class="btn btn-search">Rechercher</button>
+            <a th:href="@{/apprentices}" class="btn btn-secondary">Réinitialiser</a>
+        </form>
+    </div>
+
+    <div class="logout-section">
+        <form th:action="@{/apprentices/new-year}" method="post">
+            <button type="submit" class="btn-logout">Nouvelle année</button>
+        </form>
+    </div>
+
+    <div class="table-container">
+        <table class="apprentice-table">
             <thead>
             <tr>
                 <th>Nom</th>
                 <th>Prénom</th>
-                <th>Programme</th>
-                <th>Année</th>
-                <th>Détails</th>
+                <th>Spécialité</th>
+                <th>Année académique</th>
+                <th>Email</th>
+                <th>Entreprise</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="a : ${apprentis}">
-                <td th:text="${a.nom}"></td>
-                <td th:text="${a.prenom}"></td>
-                <td th:text="${a.programme}"></td>
-                <td th:text="${a.annee}"></td>
-                <td><a th:href="@{'/apprentis/' + ${a.id}}">Voir</a></td>
+            <tr th:each="apprentice : ${apprentices}">
+                <td th:text="${apprentice.lastName}">Doe</td>
+                <td th:text="${apprentice.firstName}">John</td>
+                <td><span class="badge" th:text="${apprentice.major}">LSI1</span></td>
+                <td th:text="${apprentice.academicYear}">2024-2025</td>
+                <td th:text="${apprentice.email}">john.doe@example.com</td>
+                <td th:text="${apprentice.company != null ? apprentice.company.socialReason : '-'}">-</td>
+                <td class="actions">
+                    <a th:href="@{/apprentices/{id}(id=${apprentice.id})}" class="btn-action btn-view">Voir</a>
+                    <a th:href="@{/apprentices/{id}/edit(id=${apprentice.id})}" class="btn-action btn-edit">Modifier</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(apprentices)}">
+                <td colspan="7" class="empty-state">Aucun apprenti trouvé</td>
             </tr>
             </tbody>
         </table>
     </div>
-
-    <a class="add-btn" th:href="@{/apprentis/new}">+ Ajouter un apprenti</a>
 </div>
 
 </body>

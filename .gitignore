@@ -1,15 +1,10 @@
-# === Maven / Java ===
+HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-*.class
-*.jar
-*.war
-*.ear
-*.log
 
-# === IDE / STS / Eclipse / IntelliJ / NetBeans ===
+### STS ###
 .apt_generated
 .classpath
 .factorypath
@@ -18,11 +13,13 @@ target/
 .springBeans
 .sts4-cache
 
-.idea/
+### IntelliJ IDEA ###
+.idea
 *.iws
 *.iml
 *.ipr
 
+### NetBeans ###
 /nbproject/private/
 /nbbuild/
 /dist/
@@ -32,20 +29,5 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+### VS Code ###
 .vscode/
-
-# === OS files ===
-.DS_Store
-Thumbs.db
-
-# === Temporary / swap files ===
-*.tmp
-*.swp
-*.swo
-*.bak
-
-# === Spring Boot / DB / Cache / Logs ===
-*.db
-*.h2.db
-*.mv.db
-/logs/
