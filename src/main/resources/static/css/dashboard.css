@@ -125,6 +125,7 @@
 /* Empty State */
 .empty-state {
     text-align: center;
+    color : #611010;
     padding: 3rem 1rem;
     color: var(--text-light);
     font-size: 0.95rem;
@@ -136,6 +137,139 @@
     padding: 0.2rem 0.6rem;
 }
 
+/* ==========================
+   Alumni Modal Styles
+========================== */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.45); /* plus doux que 0.5 */
+    backdrop-filter: blur(4px); /* effet flou derrière */
+    transition: opacity 0.3s ease;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    margin: 5% auto; /* réduit l'espace vertical */
+    padding: 2rem;
+    border-radius: 12px;
+    width: 85%;
+    max-width: 900px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.close {
+    float: right;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close:hover {
+    color: var(--primary);
+}
+
+.modal h3 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* Table inside modal */
+.modal table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 0.5rem; /* espace entre les lignes */
+}
+
+.modal thead tr {
+    background: var(--primary);
+    color: white;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    border-radius: 8px;
+}
+
+.modal thead th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+}
+
+.modal tbody tr {
+    background: #f9f9f9;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.modal tbody tr:hover {
+    background: #f1f1f1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.modal tbody td {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    vertical-align: middle;
+    border: none;
+}
+
+/* Responsive table for modal */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+    }
+
+    .modal table, .modal thead, .modal tbody, .modal th, .modal td, .modal tr {
+        display: block;
+        width: 100%;
+    }
+
+    .modal thead tr {
+        display: none;
+    }
+
+    .modal tbody tr {
+        margin-bottom: 1rem;
+        background: #ffffff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-radius: 8px;
+        padding: 1rem;
+    }
+
+    .modal tbody td {
+        padding: 0.5rem 0;
+        text-align: right;
+        position: relative;
+    }
+
+    .modal tbody td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #555;
+    }
+}
 /* Responsive */
 @media (max-width: 1200px) {
     .search-form {

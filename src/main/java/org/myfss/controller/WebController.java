@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.myfss.dto.ApprenticeUpdateDTO;
 import org.myfss.model.Apprentice;
 import org.myfss.model.Company;
+import org.myfss.model.enums.Major;
 import org.myfss.service.ApprenticeService;
 import org.myfss.service.CompanyService;
 import org.myfss.service.MasterService;
@@ -28,7 +29,9 @@ public class WebController {
     @GetMapping
     public String listApprentices(Model model) {
         List<Apprentice> apprentices = apprenticeService.getAllApprentices();
+        List<Apprentice> alumni = apprenticeService.getAllAlumni();
         model.addAttribute("apprentices", apprentices);
+        model.addAttribute("alumni", alumni);
         return "dashboard";
     }
 
@@ -103,8 +106,10 @@ public class WebController {
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable Long id, Model model) {
         Apprentice apprentice = apprenticeService.getApprenticeById(id);
+        model.addAttribute("masters", masterService.getAllMasters());
+        model.addAttribute("companies", companyService.getAllCompanies());
         model.addAttribute("apprentice", apprentice);
-        return "apprentice-form";
+        return "apprentice-edit";
     }
 
     @PostMapping("/{id}/update")
@@ -116,14 +121,15 @@ public class WebController {
             Model model) {
 
         if (result.hasErrors()) {
+            model.addAttribute("masters", masterService.getAllMasters());
+            model.addAttribute("companies", companyService.getAllCompanies());
             Apprentice apprentice = apprenticeService.getApprenticeById(id);
             model.addAttribute("apprentice", apprentice);
-            return "apprentice-form";
+            return "apprentice-edit";
         }
 
         apprenticeService.updateApprentice(id, dto);
-        redirectAttributes.addFlashAttribute("successMessage",
-                "Apprenti modifié avec succès !");
+        redirectAttributes.addFlashAttribute("successMessage", "Apprenti modifié avec succès !");
         return "redirect:/apprentices/" + id;
     }
 

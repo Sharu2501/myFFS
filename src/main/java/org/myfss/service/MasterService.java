@@ -1,6 +1,7 @@
 package org.myfss.service;
 
 import lombok.RequiredArgsConstructor;
+import org.myfss.exception.MasterNotFoundException;
 import org.myfss.model.Master;
 import org.myfss.repository.MasterRepository;
 import org.springframework.stereotype.Service;
@@ -15,5 +16,10 @@ public class MasterService {
 
     public List<Master> getAllMasters() {
         return masterRepository.findAll();
+    }
+
+    public Master getMasterById(Long id) {
+        return masterRepository.findById(id)
+                .orElseThrow(() -> new MasterNotFoundException(id));
     }
 }

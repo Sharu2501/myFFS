@@ -12,4 +12,6 @@ public class ApprenticeUpdateDTO {
     private String firstName;
     private String email;
     private String phoneNumber;
+    private Long companyId;
+    private Long masterId;
 }

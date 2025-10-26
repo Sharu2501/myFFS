@@ -16,6 +16,7 @@
         <h2>Gestion des Apprentis</h2>
         <div class="header-actions">
             <a th:href="@{/apprentices/new}" class="btn btn-primary">+ Ajouter un apprenti</a>
+            <button type="button" class="btn btn-secondary" onclick="showAlumniPopup()">Voir Archives</button>
         </div>
     </div>
 
@@ -70,12 +71,54 @@
                 </td>
             </tr>
             <tr th:if="${#lists.isEmpty(apprentices)}">
-                <td colspan="7" class="empty-state">Aucun apprenti trouvé</td>
+                <td colspan="7" class="empty-state">La liste est vide. Ajoutez au moins un apprenti</td>
             </tr>
             </tbody>
         </table>
     </div>
-</div>
 
+    <div id="alumniModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAlumniPopup()">&times;</span>
+            <h3>Alumni</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Année académique</th>
+                    <th>Email</th>
+                    <th>Entreprise</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="a : ${alumni}">
+                    <td th:text="${a.lastName}">Nom</td>
+                    <td th:text="${a.firstName}">Prénom</td>
+                    <td th:text="${a.academicYear}">Année</td>
+                    <td th:text="${a.email}">Email</td>
+                    <td th:text="${a.company != null ? a.company.socialReason : '-'}">Entreprise</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(alumni)}">
+                    <td colspan="5">Aucun alumni trouvé.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 </body>
 </html>
+
+<script>
+    function showAlumniPopup() {
+        document.getElementById('alumniModal').style.display = 'block';
+    }
+    function closeAlumniPopup() {
+        document.getElementById('alumniModal').style.display = 'none';
+    }
+    window.onclick = function(event) {
+        let modal = document.getElementById('alumniModal');
+        if (event.target === modal) modal.style.display = "none";
+    }
+</script>

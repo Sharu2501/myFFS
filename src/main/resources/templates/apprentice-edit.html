@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier un apprenti</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container">
+    <div class="logout-section">
+        <a th:href="@{/apprentices}" class="btn-back">← Retour</a>
+    </div>
+
+    <div class="form-header">
+        <h2>Modifier un apprenti</h2>
+    </div>
+
+    <!-- ⚙️ Note : on poste vers /apprentices/{id}/update -->
+    <form th:action="@{/apprentices/{id}/update(id=${apprentice.id})}"
+          method="post"
+          th:object="${apprentice}"
+          class="apprentice-form">
+
+        <!-- Erreurs -->
+        <div th:if="${#fields.hasErrors()}" class="form-errors">
+            <p>Le formulaire contient des erreurs :</p>
+            <ul>
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+            </ul>
+        </div>
+
+        <!-- Informations personnelles -->
+        <div class="form-section">
+            <h3>Informations personnelles</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="lastName">Nom</label>
+                    <input type="text" id="lastName" th:field="*{lastName}">
+                </div>
+
+                <div class="form-group">
+                    <label for="firstName">Prénom</label>
+                    <input type="text" id="firstName" th:field="*{firstName}">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" th:field="*{email}">
+                </div>
+
+                <div class="form-group">
+                    <label for="phoneNumber">Téléphone</label>
+                    <input type="tel" id="phoneNumber" th:field="*{phoneNumber}" maxlength="15"
+                           pattern="^\+?[0-9\-]{9,15}$"
+                           title="Numéro de téléphone valide (ex: +33-612345678 ou 0612345678)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Formation -->
+        <div class="form-section">
+            <h3>Formation</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="program">Programme</label>
+                    <input type="text" id="program" th:field="*{program}">
+                </div>
+
+                <div class="form-group">
+                    <label for="academicYear">Année académique</label>
+                    <input type="text" id="academicYear" th:field="*{academicYear}">
+                </div>
+
+                <div class="form-group">
+                    <label for="major">Spécialité</label>
+                    <select id="major" th:field="*{major}">
+                        <option value="">Sélectionnez une spécialité...</option>
+                        <option th:each="m : ${T(org.myfss.model.enums.Major).values()}"
+                                th:value="${m}" th:text="${m}"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Entreprise -->
+        <div class="form-group">
+            <label for="companySelect">Entreprise</label>
+            <select id="companySelect" th:field="*{company.id}">
+                <option value="">Sélectionnez...</option>
+                <option th:each="c : ${companies}" th:value="${c.id}" th:text="${c.socialReason}"
+                        th:selected="${c.id == apprentice.company?.id}"></option>
+            </select>
+        </div>
+
+        <!-- Maître d'apprentissage -->
+        <div class="form-section">
+            <h3>Maître d'apprentissage</h3>
+            <div class="form-group">
+                <label for="master">Maître</label>
+                <select id="master" th:field="*{master.id}">
+                    <option value="">Sélectionnez...</option>
+                    <option th:each="m : ${masters}" th:value="${m.id}" th:text="${m.firstName + ' ' + m.lastName}"
+                            th:selected="${m.id == apprentice.master?.id}"></option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Commentaires -->
+        <div class="form-section">
+            <h3>Commentaires</h3>
+            <div class="form-group">
+                <label for="comments">Commentaires</label>
+                <textarea id="comments" th:field="*{comments}" rows="4" maxlength="2000"></textarea>
+                <span class="char-count"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="tutorFeedback">Retour du tuteur</label>
+                <textarea id="tutorFeedback" th:field="*{tutorFeedback}" rows="4" maxlength="2000"></textarea>
+                <span class="char-count"></span>
+            </div>
+        </div>
+
+        <!-- Boutons -->
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">💾 Enregistrer les modifications</button>
+            <a th:href="@{/apprentices/{id}(id=${apprentice.id})}" class="btn btn-secondary">Annuler</a>
+        </div>
+
+    </form>
+</div>
+
+<script>
+    // compteur caractères commentaires
+    document.querySelectorAll('textarea[maxlength]').forEach(textarea => {
+        const counter = textarea.nextElementSibling;
+        if (counter) {
+            textarea.addEventListener('input', () => {
+                counter.textContent = `${textarea.value.length}/${textarea.maxLength}`;
+            });
+            counter.textContent = `${textarea.value.length}/${textarea.maxLength}`;
+        }
+    });
+</script>
+
+</body>
+</html>
