@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Ajouter un apprenti</title>
@@ -103,9 +103,15 @@
                 </div>
 
                 <div id="newCompanyFields" style="display:none">
-                    <input type="text" th:field="*{company.socialReason}" placeholder="Raison sociale">
-                    <input type="text" th:field="*{company.address}" placeholder="Adresse">
-                    <textarea th:field="*{company.accessInformation}" placeholder="Informations d'accès"></textarea>
+                    <label>
+                        <input type="text" th:field="*{company.socialReason}" placeholder="Raison sociale">
+                    </label>
+                    <label>
+                        <input type="text" th:field="*{company.address}" placeholder="Adresse">
+                    </label>
+                    <label>
+                        <textarea th:field="*{company.accessInformation}" placeholder="Informations d'accès"></textarea>
+                    </label>
                 </div>
             </div>
         </div>

@@ -23,10 +23,18 @@
 
     <div class="search-section">
         <form th:action="@{/apprentices/search}" method="get" class="search-form">
-            <input type="text" name="name" placeholder="Nom ou prénom..." class="search-input">
-            <input type="text" name="company" placeholder="Entreprise..." class="search-input">
-            <input type="text" name="missionKeyword" placeholder="Mission..." class="search-input">
-            <input type="text" name="academicYear" placeholder="Année (ex: 2024)..." class="search-input">
+            <label>
+                <input type="text" name="name" placeholder="Nom ou prénom..." class="search-input">
+            </label>
+            <label>
+                <input type="text" name="company" placeholder="Entreprise..." class="search-input">
+            </label>
+            <label>
+                <input type="text" name="missionKeyword" placeholder="Mission..." class="search-input">
+            </label>
+            <label>
+                <input type="text" name="academicYear" placeholder="Année (ex: 2024)..." class="search-input">
+            </label>
             <button type="submit" class="btn btn-search">Rechercher</button>
             <a th:href="@{/apprentices}" class="btn btn-secondary">Réinitialiser</a>
         </form>

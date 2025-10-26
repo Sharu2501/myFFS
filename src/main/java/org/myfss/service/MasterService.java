@@ -1,7 +1,6 @@
 package org.myfss.service;
 
 import lombok.RequiredArgsConstructor;
-import org.myfss.exception.MasterNotFoundException;
 import org.myfss.model.Master;
 import org.myfss.repository.MasterRepository;
 import org.springframework.stereotype.Service;
