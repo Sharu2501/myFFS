@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <title>Détails de l'apprenti</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/detail.css}">
 </head>
 <body>
 
+<div th:replace="fragments/header :: header"></div>
+
 <div class="container">
     <div class="logout-section">
         <a th:href="@{/apprentices}" class="btn-back">← Retour</a>
-        <form th:action="@{/logout}" method="post">
-            <button type="submit" class="btn-logout">Déconnexion</button>
-        </form>
     </div>
     <div class="detail-header">
         <h2 th:text="${apprentice.firstName + ' ' + apprentice.lastName}">Nom Prénom</h2>

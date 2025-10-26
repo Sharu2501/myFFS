@@ -4,16 +4,14 @@
     <meta charset="UTF-8">
     <title>Tableau de bord - Gestion des Apprentis</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/dashboard.css}">
 </head>
 <body>
 
+<div th:replace="fragments/header :: header"></div>
+
 <div class="container">
-    <div class="logout-section">
-        <form th:action="@{/logout}" method="post">
-            <button type="submit" class="btn-logout">Déconnexion</button>
-        </form>
-    </div>
     <div class="header-section">
         <h2>Gestion des Apprentis</h2>
         <div class="header-actions">

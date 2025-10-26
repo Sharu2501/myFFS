@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Ajouter un apprenti</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/form.css}">
 </head>
 <body>
 
-<nav class="navbar">
-    <div class="nav-container">
-        <h1 class="logo">MyFSS</h1>
-        <a th:href="@{/apprentices}" class="btn-back">← Retour au tableau de bord</a>
-    </div>
-</nav>
+<div th:replace="fragments/header :: header"></div>
 
 <div class="container">
+    <div class="logout-section">
+        <a th:href="@{/apprentices}" class="btn-back">← Retour au tableau de bord</a>
+    </div>
+
     <div class="form-header">
         <h2>Ajouter un apprenti</h2>
     </div>

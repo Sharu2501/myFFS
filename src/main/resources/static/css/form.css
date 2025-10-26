@@ -50,20 +50,25 @@ body {
     color: var(--primary);
 }
 
+/* ==============================
+   Bouton retour
+============================== */
+.logout-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
 .btn-back {
-    padding: 0.5rem 1rem;
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text);
+    color: var(--primary);
     text-decoration: none;
-    font-size: 0.9rem;
     font-weight: 500;
-    transition: all 0.2s;
+    transition: color 0.2s;
 }
 
 .btn-back:hover {
-    background: var(--bg);
+    color: var(--primary-dark);
 }
 
 /* ==============================

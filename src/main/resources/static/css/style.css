@@ -1,118 +1,52 @@
-/* Global Styles */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
+/* ==============================
+   Style global et variables
+============================== */
 :root {
     --primary: #2563eb;
     --primary-dark: #1e40af;
     --secondary: #64748b;
-    --success: #10b981;
-    --danger: #ef4444;
+    --white: #ffffff;
+    --bg: #f8fafc;
+    --border: #e2e8f0;
     --text: #1e293b;
     --text-light: #64748b;
-    --border: #e2e8f0;
-    --bg: #f8fafc;
-    --white: #ffffff;
-    --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
 }
 
 body {
-    background-color: #f3f4f6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-
-/* Navbar */
-.navbar {
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    padding: 1rem 0;
-    box-shadow: var(--shadow);
-}
-
-.nav-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary);
-}
-
-.nav-actions {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-}
-
-.user-info {
-    color: var(--text-light);
-    font-size: 0.9rem;
-}
-
-.btn-logout {
-    padding: 0.5rem 1rem;
-    background: var(--primary);
-    border: none;
-    border-radius: 6px;
-    color: var(--white);
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: all 0.2s;
-}
-
-.btn-logout:hover {
-    background: #dc2626;
-}
-
-.btn-back {
-    padding: 0.5rem 1rem;
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: all 0.2s;
-}
-
-.btn-back:hover {
     background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
 }
 
-/* Container */
+/* ==============================
+   Containers
+============================== */
 .container {
-    max-width: 1400px;
-    margin: 2rem auto;
-    padding: 0 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
 }
 
-/* Buttons */
+/* ==============================
+   Boutons
+============================== */
 .btn {
-    padding: 0.625rem 1.25rem;
+    display: inline-block;
+    padding: 0.5rem 1rem;
     border-radius: 6px;
-    border: none;
     font-size: 0.9rem;
     font-weight: 500;
-    cursor: pointer;
     text-decoration: none;
-    display: inline-block;
+    border: none;
+    cursor: pointer;
     transition: all 0.2s;
 }
 
@@ -127,70 +61,45 @@ body {
 
 .btn-secondary {
     background: var(--white);
-    color: var(--text);
     border: 1px solid var(--border);
+    color: var(--text);
 }
 
 .btn-secondary:hover {
     background: var(--bg);
 }
 
-.btn-search {
-    background: var(--text);
+.btn-logout {
+    background: var(--secondary);
     color: var(--white);
 }
 
-.btn-search:hover {
-    background: var(--text-light);
+.btn-logout:hover {
+    background: var(--text);
 }
 
-/* Badge */
+/* ==============================
+   Textes et badges
+============================== */
+h1, h2, h3, h4 {
+    color: var(--text);
+    font-weight: 600;
+}
+
 .badge {
     display: inline-block;
-    padding: 0.25rem 0.75rem;
     background: var(--primary);
     color: var(--white);
-    border-radius: 4px;
-    font-size: 0.85rem;
-    font-weight: 500;
+    border-radius: 12px;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.8rem;
 }
 
-/* Form Elements */
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-input[type="password"],
-select,
-textarea {
-    width: 100%;
-    padding: 0.625rem;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-size: 0.9rem;
-    font-family: inherit;
-    transition: border-color 0.2s;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-}
-
-input::placeholder {
-    color: var(--text-light);
-}
-
-/* Required indicator */
-.required {
-    color: var(--danger);
-}
-
-/* Error messages */
-.error {
-    color: var(--danger);
-    font-size: 0.85rem;
-    margin-top: 0.25rem;
-    display: block;
+/* ==============================
+   Responsive
+============================== */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
 }

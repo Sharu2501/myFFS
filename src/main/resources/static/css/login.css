@@ -1,3 +1,19 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: #f9fafb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
 .login-container {
     width: 425px;
     padding: 40px;
@@ -10,6 +26,7 @@
 .login-container h2 {
     margin-bottom: 25px;
     font-weight: 600;
+    color: #111827;
 }
 
 input[type=text], input[type=password] {
@@ -21,8 +38,7 @@ input[type=text], input[type=password] {
     font-size: 14px;
 }
 
-input[type=password]::placeholder,
-input[type=text]::placeholder {
+input::placeholder {
     color: #aaa;
 }
 
@@ -59,4 +75,5 @@ button:hover {
     gap: 5px;
     font-size: 14px;
     margin-top: 10px;
+    color: #374151;
 }
