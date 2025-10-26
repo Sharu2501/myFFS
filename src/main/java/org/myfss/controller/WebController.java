@@ -4,7 +4,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.myfss.dto.ApprenticeUpdateDTO;
 import org.myfss.model.Apprentice;
+import org.myfss.model.Company;
 import org.myfss.service.ApprenticeService;
+import org.myfss.service.CompanyService;
+import org.myfss.service.MasterService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +22,8 @@ import java.util.List;
 public class WebController {
 
     private final ApprenticeService apprenticeService;
+    private final MasterService masterService;
+    private final CompanyService companyService;
 
     @GetMapping
     public String listApprentices(Model model) {
@@ -55,9 +60,11 @@ public class WebController {
         return "apprentice-detail";
     }
 
-    @GetMapping("/apprentices/new")
+    @GetMapping("/new")
     public String showCreateForm(Model model) {
         model.addAttribute("apprentice", new Apprentice());
+        model.addAttribute("masters", masterService.getAllMasters());
+        model.addAttribute("companies", companyService.getAllCompanies());
         return "apprentice-form";
     }
 
@@ -69,6 +76,22 @@ public class WebController {
 
         if (result.hasErrors()) {
             return "apprentice-form";
+        }
+
+        Company company = apprentice.getCompany();
+
+        if (company != null) {
+            if (company.getId() != null) {
+                Company existing = companyService.getCompanyById(company.getId());
+                apprentice.setCompany(existing);
+            } else if (company.getSocialReason() != null) {
+                Company existing = companyService.findBySocialReason(company.getSocialReason());
+                if (existing != null) {
+                    apprentice.setCompany(existing);
+                } else {
+                    companyService.saveCompany(company); // Hibernate attache l'objet
+                }
+            }
         }
 
         Apprentice created = apprenticeService.createApprentice(apprentice);

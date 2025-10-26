@@ -61,7 +61,6 @@
                 <td th:text="${apprentice.company != null ? apprentice.company.socialReason : '-'}">-</td>
                 <td class="actions">
                     <a th:href="@{/apprentices/{id}(id=${apprentice.id})}" class="btn-action btn-view">Voir</a>
-                    <a th:href="@{/apprentices/{id}/edit(id=${apprentice.id})}" class="btn-action btn-edit">Modifier</a>
                 </td>
             </tr>
             <tr th:if="${#lists.isEmpty(apprentices)}">

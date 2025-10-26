@@ -61,7 +61,7 @@ public class Apprentice {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
     private Company company;
 
