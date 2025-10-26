@@ -128,7 +128,7 @@
 
         <!-- Boutons -->
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">💾 Enregistrer les modifications</button>
+            <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
             <a th:href="@{/apprentices/{id}(id=${apprentice.id})}" class="btn btn-secondary">Annuler</a>
         </div>
 
@@ -136,7 +136,6 @@
 </div>
 
 <script>
-    // compteur caractères commentaires
     document.querySelectorAll('textarea[maxlength]').forEach(textarea => {
         const counter = textarea.nextElementSibling;
         if (counter) {

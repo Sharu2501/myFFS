@@ -12,9 +12,14 @@
 <div th:replace="fragments/header :: header"></div>
 
 <div class="container">
+    <div th:if="${successMessage != null}" class="alert alert-success">
+        <p th:text="${successMessage}"></p>
+    </div>
+
     <div class="logout-section">
         <a th:href="@{/apprentices}" class="btn-back">← Retour</a>
     </div>
+
     <div class="detail-header">
         <h2 th:text="${apprentice.firstName + ' ' + apprentice.lastName}">Nom Prénom</h2>
         <div class="header-actions">
