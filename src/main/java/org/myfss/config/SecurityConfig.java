@@ -16,8 +16,8 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails tuteur = User.withUsername("sa")
-                .password("{noop}password")
+        UserDetails tuteur = User.withUsername("tuteur")
+                .password("{noop}tuteur")
                 .roles("TUTEUR")
                 .build();
 
