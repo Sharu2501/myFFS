@@ -37,7 +37,7 @@ class ApprenticeServiceTests {
                 .id(1L)
                 .firstName("Lucas")
                 .lastName("Faria")
-                .major(Major.LSI1)
+                .major(Major.I1)
                 .build();
     }
 
