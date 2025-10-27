@@ -76,6 +76,7 @@
                     <select id="major" th:field="*{major}">
                         <option value="">Sélectionnez une spécialité...</option>
                         <option th:each="m : ${T(org.myfss.model.enums.Major).values()}"
+                                th:unless="${m.name() == 'ALUMNI'}"
                                 th:value="${m}" th:text="${m}"></option>
                     </select>
                 </div>

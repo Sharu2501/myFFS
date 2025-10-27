@@ -75,6 +75,7 @@
                     <select id="major" th:field="*{major}" required>
                         <option value="">Sélectionnez...</option>
                         <option th:each="m : ${T(org.myfss.model.enums.Major).values()}"
+                                th:unless="${m.name() == 'ALUMNI'}"
                                 th:value="${m}" th:text="${m}"></option>
                     </select>
                     <span class="error" th:if="${#fields.hasErrors('major')}" th:errors="*{major}"></span>
@@ -106,6 +107,29 @@
                         <textarea th:field="*{company.accessInformation}" placeholder="Informations d'accès"></textarea>
                     </label>
                 </div>
+            </div>
+        </div>
+
+        <!-- Mission -->
+        <div class="form-section">
+            <h3>Mission</h3>
+            <div class="form-group">
+                <button id="newMission" type="button" onclick="document.getElementById('newMissionFields').style.display='block'">Ajouter la mission</button>
+                <div id="newMissionFields" style="display:none">
+                    <label>
+                        Mots clés
+                        <input type="text" th:field="*{mission.keywords}" placeholder="Mots clés">
+                    </label>
+                    <label>
+                        Poste
+                        <input type="text" th:field="*{mission.profession}" placeholder="Poste">
+                    </label>
+                    <label>
+                        Commentaires
+                        <textarea th:field="*{mission.comments}" placeholder="Commentaires"></textarea>
+                    </label>
+                </div>
+                <span class="error" th:if="${#fields.hasErrors('mission')}" th:errors="*{mission}"></span>
             </div>
         </div>
 

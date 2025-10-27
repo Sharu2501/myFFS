@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.myfss.dto.ApprenticeUpdateDTO;
 import org.myfss.model.Apprentice;
 import org.myfss.model.Company;
+import org.myfss.model.Mission;
 import org.myfss.service.ApprenticeService;
 import org.myfss.service.CompanyService;
 import org.myfss.service.MasterService;
+import org.myfss.service.MissionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +25,7 @@ public class WebController {
 
     private final ApprenticeService apprenticeService;
     private final MasterService masterService;
+    private final MissionService missionService;
     private final CompanyService companyService;
 
     @GetMapping
@@ -97,6 +100,9 @@ public class WebController {
                 }
             }
         }
+
+        Mission mission = apprentice.getMission();
+        missionService.saveMission(mission);
 
         Apprentice created = apprenticeService.createApprentice(apprentice);
         redirectAttributes.addFlashAttribute("successMessage",
