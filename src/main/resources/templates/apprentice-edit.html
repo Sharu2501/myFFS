@@ -20,19 +20,10 @@
         <h2>Modifier un apprenti</h2>
     </div>
 
-    <!-- ⚙️ Note : on poste vers /apprentices/{id}/update -->
-    <form th:action="@{/apprentices/{id}/update(id=${apprentice.id})}"
+    <form th:action="@{/apprentices/{id}/update(id=${apprenticeId})}"
           method="post"
-          th:object="${apprentice}"
+          th:object="${apprenticeUpdateDto}"
           class="apprentice-form">
-
-        <!-- Erreurs -->
-        <div th:if="${#fields.hasErrors()}" class="form-errors">
-            <p>Le formulaire contient des erreurs :</p>
-            <ul>
-                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
-            </ul>
-        </div>
 
         <!-- Informations personnelles -->
         <div class="form-section">
@@ -41,23 +32,25 @@
                 <div class="form-group">
                     <label for="lastName">Nom</label>
                     <input type="text" id="lastName" th:field="*{lastName}">
+                    <span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="firstName">Prénom</label>
                     <input type="text" id="firstName" th:field="*{firstName}">
+                    <span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" id="email" th:field="*{email}">
+                    <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="phoneNumber">Téléphone</label>
-                    <input type="tel" id="phoneNumber" th:field="*{phoneNumber}" maxlength="15"
-                           pattern="^\+?[0-9\-]{9,15}$"
-                           title="Numéro de téléphone valide (ex: +33-612345678 ou 0612345678)">
+                    <input type="tel" id="phoneNumber" th:field="*{phoneNumber}" maxlength="10">
+                    <span class="error" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
                 </div>
             </div>
         </div>
@@ -69,11 +62,13 @@
                 <div class="form-group">
                     <label for="program">Programme</label>
                     <input type="text" id="program" th:field="*{program}">
+                    <span class="error" th:if="${#fields.hasErrors('program')}" th:errors="*{program}"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="academicYear">Année académique</label>
                     <input type="text" id="academicYear" th:field="*{academicYear}">
+                    <span class="error" th:if="${#fields.hasErrors('academicYear')}" th:errors="*{academicYear}"></span>
                 </div>
 
                 <div class="form-group">
@@ -90,10 +85,10 @@
         <!-- Entreprise -->
         <div class="form-group">
             <label for="companySelect">Entreprise</label>
-            <select id="companySelect" th:field="*{company.id}">
+            <select id="companySelect" th:field="*{companyId}">
                 <option value="">Sélectionnez...</option>
-                <option th:each="c : ${companies}" th:value="${c.id}" th:text="${c.socialReason}"
-                        th:selected="${c.id == apprentice.company?.id}"></option>
+                <option th:each="c : ${company}" th:value="${c.id}" th:text="${c.socialReason}"
+                        th:selected="${c.id == apprenticeUpdateDto.companyId}"></option>
             </select>
         </div>
 
@@ -102,10 +97,10 @@
             <h3>Maître d'apprentissage</h3>
             <div class="form-group">
                 <label for="master">Maître</label>
-                <select id="master" th:field="*{master.id}">
+                <select id="master" th:field="*{masterId}">
                     <option value="">Sélectionnez...</option>
-                    <option th:each="m : ${masters}" th:value="${m.id}" th:text="${m.firstName + ' ' + m.lastName}"
-                            th:selected="${m.id == apprentice.master?.id}"></option>
+                    <option th:each="m : ${master}" th:value="${m.id}" th:text="${m.firstName + ' ' + m.lastName}"
+                            th:selected="${m.id == apprenticeUpdateDto.masterId}"></option>
                 </select>
             </div>
         </div>
@@ -129,7 +124,7 @@
         <!-- Boutons -->
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
-            <a th:href="@{/apprentices/{id}(id=${apprentice.id})}" class="btn btn-secondary">Annuler</a>
+            <a th:href="@{/apprentices/{id}(id=${apprenticeId})}" class="btn btn-secondary">Annuler</a>
         </div>
 
     </form>

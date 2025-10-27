@@ -49,14 +49,18 @@ public class Apprentice {
 
     @NotBlank(message = "L'adresse e-mail est obligatoire.")
     @Email(message = "L'adresse e-mail doit être valide.")
+    @Pattern(
+            regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+            message = "L'adresse e-mail doit être valide et contenir un domaine (ex: exemple@gmail.com)."
+    )
     @Size(max = 50, message = "L'adresse e-mail ne doit pas dépasser 50 caractères.")
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @NotBlank(message = "Le numéro de téléphone est obligatoire.")
     @Pattern(
-            regexp = "^(\\+\\d{1,3}[- ]?)?\\d{9,12}$",
-            message = "Le numéro de téléphone doit être valide (ex: +33 612345678)."
+            regexp = "^\\d{10}$",
+            message = "Le numéro de téléphone doit contenir exactement 10 chiffres (ex: 0612345678)."
     )
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;

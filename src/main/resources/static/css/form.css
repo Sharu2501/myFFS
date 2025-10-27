@@ -211,9 +211,9 @@ textarea {
 /* ==============================
    Select Entreprise et Nouveau
 ============================== */
-#companySelect {
-    padding-right: 2.5rem; /* espace pour flèche */
-    appearance: none; /* supprime le style natif du navigateur */
+#companySelect, #master, #major {
+    padding-right: 2.5rem;
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     background: var(--white) url("data:image/svg+xml;charset=US-ASCII,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2364788b'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
@@ -222,7 +222,7 @@ textarea {
     transition: border-color 0.2s;
 }
 
-#companySelect:focus {
+#companySelect:focus, #master:focus, #major:focus {
     border-color: var(--primary);
     outline: none;
 }
@@ -266,6 +266,27 @@ textarea {
     border-color: var(--primary);
 }
 
+.has-error input,
+.has-error select,
+.has-error textarea {
+    border: 2px solid #dc3545;
+}
+
+.error-text {
+    color: #dc3545;
+    font-size: 0.9em;
+    margin-top: 3px;
+    display: block;
+}
+
+.alert-danger {
+    background: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
 /* ==============================
    Responsive
 ============================== */

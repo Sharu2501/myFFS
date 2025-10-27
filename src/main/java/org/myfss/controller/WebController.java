@@ -74,9 +74,11 @@ public class WebController {
     public String createApprentice(
             @Valid @ModelAttribute Apprentice apprentice,
             BindingResult result,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes, Model model) {
 
         if (result.hasErrors()) {
+            model.addAttribute("masters", masterService.getAllMasters());
+            model.addAttribute("companies", companyService.getAllCompanies());
             return "apprentice-form";
         }
 
@@ -91,7 +93,7 @@ public class WebController {
                 if (existing != null) {
                     apprentice.setCompany(existing);
                 } else {
-                    companyService.saveCompany(company); // Hibernate attache l'objet
+                    companyService.saveCompany(company);
                 }
             }
         }
@@ -105,25 +107,43 @@ public class WebController {
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable Long id, Model model) {
         Apprentice apprentice = apprenticeService.getApprenticeById(id);
-        model.addAttribute("masters", masterService.getAllMasters());
-        model.addAttribute("companies", companyService.getAllCompanies());
-        model.addAttribute("apprentice", apprentice);
+
+        ApprenticeUpdateDTO dto = ApprenticeUpdateDTO.builder()
+                .program(apprentice.getProgram())
+                .academicYear(apprentice.getAcademicYear())
+                .major(apprentice.getMajor())
+                .firstName(apprentice.getFirstName())
+                .lastName(apprentice.getLastName())
+                .email(apprentice.getEmail())
+                .phoneNumber(apprentice.getPhoneNumber())
+                .companyId(apprentice.getCompany() != null ? apprentice.getCompany().getId() : null)
+                .masterId(apprentice.getMaster() != null ? apprentice.getMaster().getId() : null)
+                .comments(apprentice.getComments())
+                .tutorFeedback(apprentice.getTutorFeedback())
+                .build();
+
+        model.addAttribute("apprenticeUpdateDto", dto);
+        model.addAttribute("master", masterService.getAllMasters());
+        model.addAttribute("apprentice", apprenticeService.getAllApprentices());
+        model.addAttribute("company", companyService.getAllCompanies());
+        model.addAttribute("apprenticeId", id);
         return "apprentice-edit";
     }
 
     @PostMapping("/{id}/update")
     public String updateApprentice(
             @PathVariable Long id,
-            @Valid @ModelAttribute ApprenticeUpdateDTO dto,
+            @Valid @ModelAttribute("apprenticeUpdateDto") ApprenticeUpdateDTO dto,
             BindingResult result,
             RedirectAttributes redirectAttributes,
             Model model) {
 
         if (result.hasErrors()) {
-            model.addAttribute("masters", masterService.getAllMasters());
-            model.addAttribute("companies", companyService.getAllCompanies());
-            Apprentice apprentice = apprenticeService.getApprenticeById(id);
-            model.addAttribute("apprentice", apprentice);
+            model.addAttribute("master", masterService.getAllMasters());
+            model.addAttribute("company", companyService.getAllCompanies());
+            model.addAttribute("apprentice", apprenticeService.getAllApprentices());
+            model.addAttribute("apprenticeUpdateDto", dto);
+            model.addAttribute("apprenticeId", id);
             return "apprentice-edit";
         }
 

@@ -22,28 +22,19 @@
 
     <form th:action="@{/apprentices}" method="post" th:object="${apprentice}" class="apprentice-form">
 
-        <div th:if="${#fields.hasErrors()}" class="form-errors">
-            <p>Le formulaire contient des erreurs :</p>
-            <ul>
-                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
-            </ul>
-        </div>
-
         <!-- Informations personnelles -->
         <div class="form-section">
             <h3>Informations personnelles</h3>
             <div class="form-grid">
                 <div class="form-group">
                     <label for="lastName">Nom <span class="required">*</span></label>
-                    <input type="text" id="lastName" th:field="*{lastName}" maxlength="20" required
-                           pattern="^[A-Za-zÀ-ÖØ-öø-ÿ'\- ]+$">
+                    <input type="text" id="lastName" th:field="*{lastName}">
                     <span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="firstName">Prénom <span class="required">*</span></label>
-                    <input type="text" id="firstName" th:field="*{firstName}" maxlength="20" required
-                           pattern="^[A-Za-zÀ-ÖØ-öø-ÿ'\- ]+$">
+                    <input type="text" id="firstName" th:field="*{firstName}">
                     <span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
                 </div>
 
@@ -56,9 +47,8 @@
 
                 <div class="form-group">
                     <label for="phoneNumber">Téléphone <span class="required">*</span></label>
-                    <input type="tel" id="phoneNumber" th:field="*{phoneNumber}" maxlength="15" required
-                            pattern="^\+?[0-9\-]{9,15}$"
-                            title="Numéro de téléphone valide (ex: +33-612345678 ou 0612345678)">
+                    <input type="tel" id="phoneNumber" th:field="*{phoneNumber}"
+                            title="Numéro de téléphone valide (ex: 0612345678)">
                     <span class="error" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
                 </div>
             </div>
@@ -71,11 +61,13 @@
                 <div class="form-group">
                     <label for="program">Programme <span class="required">*</span></label>
                     <input type="text" id="program" th:field="*{program}" maxlength="20" required>
+                    <span class="error" th:if="${#fields.hasErrors('program')}" th:errors="*{program}"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="academicYear">Année académique <span class="required">*</span></label>
                     <input type="text" id="academicYear" th:field="*{academicYear}" maxlength="9" required>
+                    <span class="error" th:if="${#fields.hasErrors('academicYear')}" th:errors="*{academicYear}"></span>
                 </div>
 
                 <div class="form-group">
@@ -153,16 +145,5 @@
     </form>
 </div>
 
-<script>
-    document.querySelectorAll('textarea[maxlength]').forEach(textarea => {
-        const counter = textarea.nextElementSibling;
-        if(counter) {
-            textarea.addEventListener('input', () => {
-                counter.textContent = `${textarea.value.length}/${textarea.maxLength}`;
-            });
-            counter.textContent = `${textarea.value.length}/${textarea.maxLength}`;
-        }
-    });
-</script>
 </body>
 </html>
