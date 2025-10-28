@@ -20,36 +20,35 @@
         <h2>Modifier un apprenti</h2>
     </div>
 
-    <form th:action="@{/apprentices/{id}/update(id=${apprenticeId})}"
-          method="post"
-          th:object="${apprenticeUpdateDto}"
+    <form th:action="@{/apprentices/{id}/update(id=${apprenticeId})}" method="post" th:object="${apprentice}"
           class="apprentice-form">
 
         <!-- Informations personnelles -->
         <div class="form-section">
             <h3>Informations personnelles</h3>
+
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="lastName">Nom</label>
-                    <input type="text" id="lastName" th:field="*{lastName}">
+                    <label for="lastName">Nom <span class="required">*</span></label>
+                    <input type="text" id="lastName" th:field="*{lastName}" required>
                     <span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
                 </div>
 
                 <div class="form-group">
-                    <label for="firstName">Prénom</label>
-                    <input type="text" id="firstName" th:field="*{firstName}">
+                    <label for="firstName">Prénom <span class="required">*</span></label>
+                    <input type="text" id="firstName" th:field="*{firstName}" required>
                     <span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" th:field="*{email}">
+                    <label for="email">Email <span class="required">*</span></label>
+                    <input type="email" id="email" th:field="*{email}" maxlength="50" required>
                     <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                 </div>
 
                 <div class="form-group">
-                    <label for="phoneNumber">Téléphone</label>
-                    <input type="tel" id="phoneNumber" th:field="*{phoneNumber}" maxlength="10">
+                    <label for="phoneNumber">Téléphone <span class="required">*</span></label>
+                    <input type="tel" id="phoneNumber" th:field="*{phoneNumber}" required>
                     <span class="error" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
                 </div>
             </div>
@@ -58,23 +57,22 @@
         <!-- Formation -->
         <div class="form-section">
             <h3>Formation</h3>
+
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="program">Programme</label>
-                    <input type="text" id="program" th:field="*{program}">
-                    <span class="error" th:if="${#fields.hasErrors('program')}" th:errors="*{program}"></span>
+                    <label for="program">Programme <span class="required">*</span></label>
+                    <input type="text" id="program" th:field="*{program}" maxlength="20" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="academicYear">Année académique</label>
-                    <input type="text" id="academicYear" th:field="*{academicYear}">
-                    <span class="error" th:if="${#fields.hasErrors('academicYear')}" th:errors="*{academicYear}"></span>
+                    <label for="academicYear">Année académique <span class="required">*</span></label>
+                    <input type="text" id="academicYear" th:field="*{academicYear}" maxlength="9" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="major">Spécialité</label>
-                    <select id="major" th:field="*{major}">
-                        <option value="">Sélectionnez une spécialité...</option>
+                    <label for="major">Spécialité <span class="required">*</span></label>
+                    <select id="major" th:field="*{major}" required>
+                        <option value="">Sélectionnez...</option>
                         <option th:each="m : ${T(org.myfss.model.enums.Major).values()}"
                                 th:unless="${m.name() == 'ALUMNI'}"
                                 th:value="${m}" th:text="${m}"></option>
@@ -84,25 +82,157 @@
         </div>
 
         <!-- Entreprise -->
-        <div class="form-group">
-            <label for="companySelect">Entreprise</label>
-            <select id="companySelect" th:field="*{companyId}">
-                <option value="">Sélectionnez...</option>
-                <option th:each="c : ${company}" th:value="${c.id}" th:text="${c.socialReason}"
-                        th:selected="${c.id == apprenticeUpdateDto.companyId}"></option>
-            </select>
+        <div class="form-section">
+            <h3>Entreprise</h3>
+
+            <div class="form-grid">
+                <div class="form-group" style="margin-bottom: 20px">
+                    <label>Raison sociale<span class="required">*</span></label>
+                    <input type="text" th:field="*{company.socialReason}" placeholder="Raison sociale">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 20px">
+                    <label>Adresse<span class="required">*</span></label>
+                    <input type="text" th:field="*{company.address}" placeholder="Adresse">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 20px">
+                    <label>Informations d'accès</label>
+                    <textarea th:field="*{company.accessInformation}" placeholder="Informations d'accès"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mission -->
+        <div class="form-section">
+            <h3>Mission</h3>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="missionKeywords">Mots clés <span class="required">*</span></label>
+                    <input type="text" id="missionKeywords" th:field="*{mission.keywords}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="missionProfession">Poste <span class="required">*</span></label>
+                    <input type="text" id="missionProfession" th:field="*{mission.profession}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="missionComments">Commentaires</label>
+                    <textarea id="missionComments" th:field="*{mission.comments}" rows="3"></textarea>
+                </div>
+            </div>
         </div>
 
         <!-- Maître d'apprentissage -->
         <div class="form-section">
             <h3>Maître d'apprentissage</h3>
-            <div class="form-group">
-                <label for="master">Maître</label>
-                <select id="master" th:field="*{masterId}">
-                    <option value="">Sélectionnez...</option>
-                    <option th:each="m : ${master}" th:value="${m.id}" th:text="${m.firstName + ' ' + m.lastName}"
-                            th:selected="${m.id == apprenticeUpdateDto.masterId}"></option>
-                </select>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="masterLastName">Nom <span class="required">*</span></label>
+                    <input type="text" id="masterLastName" th:field="*{master.lastName}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="masterFirstName">Prénom <span class="required">*</span></label>
+                    <input type="text" id="masterFirstName" th:field="*{master.firstName}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="masterEmail">Email <span class="required">*</span></label>
+                    <input type="email" id="masterEmail" th:field="*{master.email}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="masterPhone">Téléphone<span class="required">*</span></label>
+                    <input type="tel" id="masterPhone" th:field="*{master.phoneNumber}">
+                </div>
+
+                <div class="form-group">
+                    <label for="masterPosition">Poste<span class="required">*</span></label>
+                    <input type="text" id="masterPosition" th:field="*{master.position}">
+                </div>
+            </div>
+        </div>
+
+        <!-- Visite -->
+        <div class="form-section">
+            <h3>Visite</h3>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="visitDate">Date de la visite <span class="required">*</span></label>
+                    <input type="date" id="visitDate" th:field="*{visit.date}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="visitFormat">Format <span class="required">*</span></label>
+                    <select id="visitFormat" th:field="*{visit.format}" required>
+                        <option value="">Sélectionnez...</option>
+                        <option th:value="${T(org.myfss.model.enums.Format).FACE_TO_FACE}">Présentiel</option>
+                        <option th:value="${T(org.myfss.model.enums.Format).VIDEOCONFERENCE}">Visioconférence</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="visitComments">Commentaires</label>
+                    <textarea id="visitComments" th:field="*{visit.comments}" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Évaluation -->
+        <div class="form-section">
+            <h3>Évaluation</h3>
+
+            <!-- Mémoire -->
+            <div class="form-subsection">
+                <h4>Mémoire</h4>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="reportTheme">Thème</label>
+                        <input type="text" id="reportTheme" th:field="*{evaluation.report.theme}"
+                               placeholder="Thème du mémoire">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reportGrade">Note</label>
+                        <input type="number" step="0.01" min="0" max="20" id="reportGrade"
+                               th:field="*{evaluation.report.grade}" placeholder="Note du mémoire">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reportComments">Commentaires</label>
+                        <textarea id="reportComments" th:field="*{evaluation.report.comments}" rows="3"
+                                  placeholder="Commentaires sur le mémoire"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Oral -->
+            <div class="form-subsection">
+                <h4>Oral</h4>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="oralDate">Date</label>
+                        <input type="date" id="oralDate" th:field="*{evaluation.oral.date}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="oralGrade">Note</label>
+                        <input type="number" step="0.01" min="0" max="20" id="oralGrade"
+                               th:field="*{evaluation.oral.grade}" placeholder="Note de l'oral">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="oralComments">Commentaires</label>
+                        <textarea id="oralComments" th:field="*{evaluation.oral.comments}" rows="3"
+                                  placeholder="Commentaires sur l'oral"></textarea>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -112,13 +242,10 @@
             <div class="form-group">
                 <label for="comments">Commentaires</label>
                 <textarea id="comments" th:field="*{comments}" rows="4" maxlength="2000"></textarea>
-                <span class="char-count"></span>
             </div>
-
-            <div class="form-group">
+            <div class="form-group" style="margin-top: 20px">
                 <label for="tutorFeedback">Retour du tuteur</label>
                 <textarea id="tutorFeedback" th:field="*{tutorFeedback}" rows="4" maxlength="2000"></textarea>
-                <span class="char-count"></span>
             </div>
         </div>
 
@@ -130,18 +257,6 @@
 
     </form>
 </div>
-
-<script>
-    document.querySelectorAll('textarea[maxlength]').forEach(textarea => {
-        const counter = textarea.nextElementSibling;
-        if (counter) {
-            textarea.addEventListener('input', () => {
-                counter.textContent = `${textarea.value.length}/${textarea.maxLength}`;
-            });
-            counter.textContent = `${textarea.value.length}/${textarea.maxLength}`;
-        }
-    });
-</script>
 
 </body>
 </html>

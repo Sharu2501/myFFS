@@ -1,5 +1,3 @@
-/* Dashboard Specific Styles */
-
 .header-section {
     display: flex;
     justify-content: space-between;
@@ -14,7 +12,6 @@
     color: var(--text);
 }
 
-/* Search Section */
 .search-section {
     background: var(--white);
     padding: 1.5rem;
@@ -43,7 +40,6 @@
     border-color: var(--primary);
 }
 
-/* Table Container */
 .table-container {
     background: var(--white);
     border-radius: 8px;
@@ -89,7 +85,6 @@
     border-bottom: none;
 }
 
-/* Actions Column */
 .actions {
     display: flex;
     gap: 0.5rem;
@@ -122,23 +117,17 @@
     background: var(--primary-dark);
 }
 
-/* Empty State */
 .empty-state {
     text-align: center;
-    color : #611010;
+    color: #611010;
     padding: 3rem 1rem;
     font-size: 0.95rem;
 }
 
-/* Badge in table */
 .apprentice-table .badge {
     font-size: 0.8rem;
     padding: 0.2rem 0.6rem;
 }
-
-/* ==========================
-   Alumni Modal Styles
-========================== */
 
 .modal {
     display: none;
@@ -166,8 +155,14 @@
 }
 
 @keyframes slideDown {
-    from { transform: translateY(-20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .close {
@@ -190,7 +185,6 @@
     color: var(--text);
 }
 
-/* Table inside modal */
 .modal table {
     width: 100%;
     border-collapse: separate;
@@ -215,13 +209,13 @@
     background: #f9f9f9;
     transition: transform 0.2s, box-shadow 0.2s;
     border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .modal tbody tr:hover {
     background: #f1f1f1;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .modal tbody td {
@@ -231,7 +225,6 @@
     border: none;
 }
 
-/* Responsive table for modal */
 @media (max-width: 768px) {
     .modal-content {
         width: 95%;
@@ -250,7 +243,7 @@
     .modal tbody tr {
         margin-bottom: 1rem;
         background: #ffffff;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         border-radius: 8px;
         padding: 1rem;
     }
@@ -269,7 +262,7 @@
         color: #555;
     }
 }
-/* Responsive */
+
 @media (max-width: 1200px) {
     .search-form {
         grid-template-columns: repeat(2, 1fr);

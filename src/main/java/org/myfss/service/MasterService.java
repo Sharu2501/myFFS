@@ -1,5 +1,6 @@
 package org.myfss.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.myfss.model.Master;
 import org.myfss.repository.MasterRepository;
@@ -15,5 +16,11 @@ public class MasterService {
 
     public List<Master> getAllMasters() {
         return masterRepository.findAll();
+    }
+
+    @Transactional
+    public Master createMaster(Master newMaster) {
+        newMaster.setId(null);
+        return masterRepository.save(newMaster);
     }
 }

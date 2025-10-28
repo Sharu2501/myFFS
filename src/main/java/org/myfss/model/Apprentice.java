@@ -19,7 +19,7 @@ public class Apprentice {
 
     @NotBlank(message = "Le programme est obligatoire.")
     @Size(max = 100, message = "Le nom du programme ne doit pas dépasser 100 caractères.")
-    @Column(name = "program", nullable = false)
+    @Column(name = "program")
     private String program;
 
     @NotBlank(message = "L'année académique est obligatoire.")
@@ -27,12 +27,12 @@ public class Apprentice {
             regexp = "^[0-9]{4}-[0-9]{4}$",
             message = "L'année académique doit être au format YYYY-YYYY (ex: 2024-2025)."
     )
-    @Column(name = "academic_year", nullable = false)
+    @Column(name = "academic_year")
     private String academicYear;
 
     @NotNull(message = "La spécialité est obligatoire.")
     @Enumerated(EnumType.STRING)
-    @Column(name = "major", nullable = false)
+    @Column(name = "major")
     private Major major;
 
     @NotBlank(message = "Le nom est obligatoire.")
@@ -54,7 +54,7 @@ public class Apprentice {
             message = "L'adresse e-mail doit être valide et contenir un domaine (ex: exemple@gmail.com)."
     )
     @Size(max = 50, message = "L'adresse e-mail ne doit pas dépasser 50 caractères.")
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email")
     private String email;
 
     @NotBlank(message = "Le numéro de téléphone est obligatoire.")
@@ -62,14 +62,14 @@ public class Apprentice {
             regexp = "^\\d{10}$",
             message = "Le numéro de téléphone doit contenir exactement 10 chiffres (ex: 0612345678)."
     )
-    @Column(name = "phone_number", nullable = false)
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "masters")
     private Master master;
 
@@ -83,10 +83,10 @@ public class Apprentice {
     private Evaluation evaluation;
 
     @Size(max = 2000, message = "Les commentaires ne doivent pas dépasser 2000 caractères.")
-    @Column(name = "comments", columnDefinition = "TEXT")
+    @Column(name = "comments")
     private String comments;
 
     @Size(max = 2000, message = "Le retour du tuteur ne doit pas dépasser 2000 caractères.")
-    @Column(name = "tutor_feedback", columnDefinition = "TEXT")
+    @Column(name = "tutor_feedback")
     private String tutorFeedback;
 }

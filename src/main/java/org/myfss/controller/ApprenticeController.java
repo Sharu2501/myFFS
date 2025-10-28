@@ -1,8 +1,8 @@
 package org.myfss.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.myfss.model.Apprentice;
-import org.myfss.dto.ApprenticeUpdateDTO;
 import org.myfss.service.ApprenticeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Apprentices")
 @RestController
 @RequestMapping("/api/apprentices")
 @RequiredArgsConstructor
@@ -20,6 +21,11 @@ public class ApprenticeController {
     @GetMapping("/active")
     public List<Apprentice> getActiveApprentices() {
         return apprenticeService.getAllApprentices();
+    }
+
+    @GetMapping("/alumni")
+    public List<Apprentice> getAllAlumni() {
+        return apprenticeService.getAllAlumni();
     }
 
     @GetMapping("/all")
@@ -38,11 +44,6 @@ public class ApprenticeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    @PutMapping("/{id}")
-    public Apprentice updateApprentice(@PathVariable Long id, @RequestBody ApprenticeUpdateDTO dto) {
-        return apprenticeService.updateApprentice(id, dto);
-    }
-
     @PostMapping("/new-academic-year")
     public ResponseEntity<String> createNewAcademicYear() {
         apprenticeService.createNewAcademicYear();
@@ -50,12 +51,7 @@ public class ApprenticeController {
     }
 
     @GetMapping("/search")
-    public List<Apprentice> searchApprentices(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String company,
-            @RequestParam(required = false) String missionKeyword,
-            @RequestParam(required = false) String academicYear
-    ) {
+    public List<Apprentice> searchApprentices(@RequestParam(required = false) String name, @RequestParam(required = false) String company, @RequestParam(required = false) String missionKeyword, @RequestParam(required = false) String academicYear) {
         return apprenticeService.searchApprentices(name, company, missionKeyword, academicYear);
     }
 }

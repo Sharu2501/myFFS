@@ -1,5 +1,6 @@
 package org.myfss.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.myfss.model.Mission;
 import org.myfss.repository.MissionRepository;
@@ -17,7 +18,9 @@ public class MissionService {
         return missionRepository.findAll();
     }
 
-    public void saveMission(Mission mission) {
-        missionRepository.save(mission);
+    @Transactional
+    public Mission createMission(Mission newMission) {
+        newMission.setId(null);
+        return missionRepository.save(newMission);
     }
 }

@@ -8,39 +8,41 @@
     <link rel="stylesheet" th:href="@{/css/dashboard.css}">
 </head>
 <body>
-
 <div th:replace="fragments/header :: header"></div>
 
 <div class="container">
     <div class="header-section">
-        <h2>Gestion des Apprentis</h2>
+        <h2>Gestion des apprentis</h2>
         <div class="header-actions">
             <a th:href="@{/apprentices/new}" class="btn btn-primary">+ Ajouter un apprenti</a>
-            <button type="button" class="btn btn-secondary" onclick="showAlumniPopup()">Voir Archives</button>
+            <button type="button" class="btn btn-secondary" onclick="showAlumniPopup()">Voir archives</button>
         </div>
     </div>
 
     <div class="search-section">
         <form th:action="@{/apprentices/search}" method="get" class="search-form">
             <label>
-                <input type="text" name="name" placeholder="Nom ou prénom..." class="search-input">
+                <input type="text" name="name" placeholder="Nom ou prénom..." class="search-input"
+                       th:value="${searchName}">
             </label>
             <label>
-                <input type="text" name="company" placeholder="Entreprise..." class="search-input">
+                <input type="text" name="company" placeholder="Entreprise..." class="search-input"
+                       th:value="${searchCompany}">
             </label>
             <label>
-                <input type="text" name="missionKeyword" placeholder="Mission..." class="search-input">
+                <input type="text" name="missionKeyword" placeholder="Mission..." class="search-input"
+                       th:value="${searchMission}">
             </label>
             <label>
-                <input type="text" name="academicYear" placeholder="Année (ex: 2024)..." class="search-input">
+                <input type="text" name="academicYear" placeholder="Année (ex: 2024)..." class="search-input"
+                       th:value="${searchYear}">
             </label>
             <button type="submit" class="btn btn-search">Rechercher</button>
-            <a th:href="@{/apprentices}" class="btn btn-secondary">Réinitialiser</a>
         </form>
     </div>
 
     <div class="logout-section">
-        <form th:action="@{/apprentices/new-year}" method="post">
+        <form th:action="@{/apprentices/new-year}" method="post" style="margin-bottom: 20px;">
             <button type="submit" class="btn-logout">Nouvelle année</button>
         </form>
     </div>
@@ -71,7 +73,7 @@
                 </td>
             </tr>
             <tr th:if="${#lists.isEmpty(apprentices)}">
-                <td colspan="7" class="empty-state">La liste est vide. Ajoutez au moins un apprenti</td>
+                <td colspan="7" class="empty-state">La liste est vide. Ajoutez au moins un apprenti.x²</td>
             </tr>
             </tbody>
         </table>
@@ -114,10 +116,12 @@
     function showAlumniPopup() {
         document.getElementById('alumniModal').style.display = 'block';
     }
+
     function closeAlumniPopup() {
         document.getElementById('alumniModal').style.display = 'none';
     }
-    window.onclick = function(event) {
+
+    window.onclick = function (event) {
         let modal = document.getElementById('alumniModal');
         if (event.target === modal) modal.style.display = "none";
     }

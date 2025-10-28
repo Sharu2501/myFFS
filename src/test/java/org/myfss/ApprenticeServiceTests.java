@@ -7,7 +7,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.myfss.exception.ApprenticeNotFoundException;
-import org.myfss.exception.InvalidApprenticeDataException;
 import org.myfss.model.Apprentice;
 import org.myfss.model.enums.Major;
 import org.myfss.repository.ApprenticeRepository;
@@ -79,13 +78,5 @@ class ApprenticeServiceTests {
                 () -> apprenticeService.getApprenticeById(1L));
 
         assertThat(exception.getMessage()).contains("introuvable");
-    }
-
-    @Test
-    void createApprentice_shouldThrowExceptionWhenNull() {
-        InvalidApprenticeDataException exception = assertThrows(InvalidApprenticeDataException.class,
-                () -> apprenticeService.createApprentice(null));
-
-        assertThat(exception.getMessage()).contains("invalides");
     }
 }

@@ -2,7 +2,7 @@ package org.myfss.exception;
 
 public class CompanyNotFoundException extends RuntimeException {
 
-    public CompanyNotFoundException(Long id) {
-        super("L'entreprise numéro " + id + " est introuvable");
+    public CompanyNotFoundException(Long Id) {
+        super("L'entreprise numéro " + Id + " est introuvable");
     }
 }

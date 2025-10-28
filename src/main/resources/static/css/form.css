@@ -25,9 +25,6 @@ body {
     min-height: 100vh;
 }
 
-/* ==============================
-   Navbar
-============================== */
 .navbar {
     background: var(--white);
     border-bottom: 1px solid var(--border);
@@ -50,9 +47,6 @@ body {
     color: var(--primary);
 }
 
-/* ==============================
-   Bouton retour
-============================== */
 .logout-section {
     display: flex;
     justify-content: space-between;
@@ -71,9 +65,6 @@ body {
     color: var(--primary-dark);
 }
 
-/* ==============================
-   Container / Form
-============================== */
 .container {
     max-width: 1400px;
     margin: 2rem auto;
@@ -123,6 +114,8 @@ input[type="text"],
 input[type="email"],
 input[type="tel"],
 input[type="password"],
+input[type="date"],
+input[type="number"],
 select,
 textarea {
     width: 100%;
@@ -168,13 +161,31 @@ textarea {
     text-align: right;
 }
 
-/* ==============================
-   Form Actions / Buttons
-============================== */
 .form-actions {
     display: flex;
     gap: 1rem;
     margin-top: 1rem;
+}
+
+.form-subsection {
+    margin-bottom: 15px;
+}
+
+.form-subsection h4 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.form-row textarea {
+    height: 100%;
+    resize: vertical;
 }
 
 .btn {
@@ -208,9 +219,6 @@ textarea {
     background: var(--bg);
 }
 
-/* ==============================
-   Select Entreprise et Nouveau
-============================== */
 #companySelect, #master, #major {
     padding-right: 2.5rem;
     appearance: none;
@@ -287,13 +295,12 @@ textarea {
     border-radius: 6px;
     margin-bottom: 15px;
 }
-/* ==============================
-   Responsive
-============================== */
+
 @media (max-width: 768px) {
     .form-grid {
         grid-template-columns: 1fr;
     }
+
     .form-actions {
         flex-direction: column;
         gap: 0.5rem;
