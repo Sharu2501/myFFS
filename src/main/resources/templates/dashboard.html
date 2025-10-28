@@ -38,6 +38,7 @@
                        th:value="${searchYear}">
             </label>
             <button type="submit" class="btn btn-search">Rechercher</button>
+            <a th:href="@{/apprentices}" class="btn btn-reset" style="color: inherit; text-decoration: none;">Réinitialiser</a>
         </form>
     </div>
 
@@ -73,7 +74,7 @@
                 </td>
             </tr>
             <tr th:if="${#lists.isEmpty(apprentices)}">
-                <td colspan="7" class="empty-state">La liste est vide. Ajoutez au moins un apprenti.x²</td>
+                <td colspan="7" class="empty-state">La liste est vide. Ajoutez au moins un apprenti.</td>
             </tr>
             </tbody>
         </table>
