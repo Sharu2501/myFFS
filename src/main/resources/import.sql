@@ -37,11 +37,17 @@ INSERT INTO reports (theme, grade, comments) VALUES
 -- ==============================
 --   EVALUATIONS
 -- ==============================
-INSERT INTO evaluations (oral_id, report_id) VALUES
-((SELECT id FROM oral_exams ORDER BY id LIMIT 1), (SELECT id FROM reports ORDER BY id LIMIT 1));
+INSERT INTO evaluations (oral_id, report_id)
+SELECT o.id, r.id
+FROM oral_exams o, reports r
+ORDER BY o.id, r.id
+LIMIT 1;
 
-INSERT INTO evaluations (oral_id, report_id) VALUES
-((SELECT id FROM oral_exams ORDER BY id DESC LIMIT 1), (SELECT id FROM reports ORDER BY id DESC LIMIT 1));
+INSERT INTO evaluations (oral_id, report_id)
+SELECT o.id, r.id
+FROM oral_exams o, reports r
+ORDER BY o.id DESC, r.id DESC
+LIMIT 1;
 
 -- ==============================
 --   MISSIONS
@@ -67,25 +73,27 @@ INSERT INTO visits (date, format, comments) VALUES
 INSERT INTO apprentices (
     program, academic_year, major, last_name, first_name, email, phone_number,
     company_id, masters, mission_id, visit_id, evaluation_id, comments, tutor_feedback
-) VALUES (
+)
+SELECT 
     'Cycle Ingénieur', '2024-2025', 'I2', 'Bernard', 'Lucas', 'lucas.bernard@efrei.fr', '0707070707',
-    (SELECT id FROM companies WHERE social_reason='TechCorp'),
-    (SELECT id FROM masters WHERE last_name='Dupont'),
-    (SELECT id FROM missions ORDER BY id LIMIT 1),
-    (SELECT id FROM visits ORDER BY id LIMIT 1),
-    (SELECT id FROM evaluations ORDER BY id LIMIT 1),
+    c.id, m.id, mi.id, v.id, e.id,
     'Apprenti motivé et autonome', 'Bon suivi de mission'
-);
+FROM companies c, masters m, missions mi, visits v, evaluations e
+WHERE c.social_reason='TechCorp'
+  AND m.last_name='Dupont'
+ORDER BY mi.id, v.id, e.id
+LIMIT 1;
 
 INSERT INTO apprentices (
     program, academic_year, major, last_name, first_name, email, phone_number,
     company_id, masters, mission_id, visit_id, evaluation_id, comments, tutor_feedback
-) VALUES (
+)
+SELECT 
     'Cycle Ingénieur', '2024-2025', 'I2', 'Nguyen', 'Emma', 'emma.nguyen@efrei.fr', '0808080808',
-    (SELECT id FROM companies WHERE social_reason='InnovShoes'),
-    (SELECT id FROM masters WHERE last_name='Martin'),
-    (SELECT id FROM missions ORDER BY id DESC LIMIT 1),
-    (SELECT id FROM visits ORDER BY id DESC LIMIT 1),
-    (SELECT id FROM evaluations ORDER BY id DESC LIMIT 1),
+    c.id, m.id, mi.id, v.id, e.id,
     'Travail sérieux et appliqué', 'Bonne progression cette année'
-);
+FROM companies c, masters m, missions mi, visits v, evaluations e
+WHERE c.social_reason='InnovShoes'
+  AND m.last_name='Martin'
+ORDER BY mi.id DESC, v.id DESC, e.id DESC
+LIMIT 1;
