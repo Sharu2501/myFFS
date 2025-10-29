@@ -25,8 +25,8 @@ public class OralService {
     public Oral updateOral(Long id, Oral updatedOral) {
         Oral existingOral = getOralById(id);
 
-        validateOralRequiredFields(updatedOral);
         applyChanges(existingOral, updatedOral);
+        validateOralRequiredFields(updatedOral);
 
         return oralRepository.save(existingOral);
     }

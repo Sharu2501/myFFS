@@ -3,7 +3,6 @@ package org.myfss.controller.rest;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.myfss.model.Company;
-import org.myfss.model.Mission;
 import org.myfss.service.CompanyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

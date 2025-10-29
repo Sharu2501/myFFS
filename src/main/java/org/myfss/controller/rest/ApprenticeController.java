@@ -50,6 +50,12 @@ public class ApprenticeController {
         return ResponseEntity.ok("Nouvelle année académique créée avec succès");
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<Apprentice> updateApprentice(@PathVariable Long id, @RequestBody Apprentice apprentice) {
+        Apprentice updated = apprenticeService.updateApprentice(id, apprentice);
+        return ResponseEntity.ok(updated);
+    }
+
     @GetMapping("/search")
     public List<Apprentice> searchApprentices(@RequestParam(required = false) String name, @RequestParam(required = false) String company, @RequestParam(required = false) String missionKeyword, @RequestParam(required = false) String academicYear) {
         return apprenticeService.searchApprentices(name, company, missionKeyword, academicYear);

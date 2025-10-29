@@ -21,8 +21,8 @@ public class ApprenticeService {
     private final MasterService masterService;
     private final CompanyService companyService;
     private final MissionService missionService;
-    private final EvaluationService evaluationService;
-    private final VisitService visitService;
+    private final OralService oralService;
+    private final ReportService reportService;
 
     public List<Apprentice> getAllApprentices() {
         return apprenticeRepository.findByMajorNot(Major.ALUMNI);
@@ -51,7 +51,7 @@ public class ApprenticeService {
     }
 
     @Transactional
-    public void updateApprentice(Long id, Apprentice updatedApprentice) {
+    public Apprentice updateApprentice(Long id, Apprentice updatedApprentice) {
         Apprentice existingApprentice = getApprenticeById(id);
 
         existingApprentice.setFirstName(updatedApprentice.getFirstName());
@@ -59,28 +59,57 @@ public class ApprenticeService {
         existingApprentice.setEmail(updatedApprentice.getEmail());
         existingApprentice.setPhoneNumber(updatedApprentice.getPhoneNumber());
         existingApprentice.setAcademicYear(updatedApprentice.getAcademicYear());
+        existingApprentice.setProgram(updatedApprentice.getProgram());
+        existingApprentice.setMajor(updatedApprentice.getMajor());
+        existingApprentice.setComments(updatedApprentice.getComments());
+        existingApprentice.setTutorFeedback(updatedApprentice.getTutorFeedback());
 
         if (updatedApprentice.getCompany() != null) {
-            companyService.updateCompany(existingApprentice.getCompany().getId(), updatedApprentice.getCompany());
-        }
-
-        if (updatedApprentice.getMission() != null) {
-            missionService.updateMission(existingApprentice.getMission().getId(), updatedApprentice.getMission());
+            Company company = updatedApprentice.getCompany().getId() != null ?
+                    companyService.getCompanyById(updatedApprentice.getCompany().getId()) :
+                    companyService.createCompany(updatedApprentice.getCompany());
+            existingApprentice.setCompany(company);
         }
 
         if (updatedApprentice.getMaster() != null) {
-            masterService.updateMaster(existingApprentice.getMaster().getId(), updatedApprentice.getMaster());
+            Master master = updatedApprentice.getMaster().getId() != null ?
+                    masterService.getMasterById(updatedApprentice.getMaster().getId()) :
+                    masterService.createMaster(updatedApprentice.getMaster());
+            existingApprentice.setMaster(master);
+        }
+
+        if (updatedApprentice.getMission() != null) {
+            Mission mission = updatedApprentice.getMission().getId() != null ?
+                    missionService.getMissionById(updatedApprentice.getMission().getId()) :
+                    missionService.createMission(updatedApprentice.getMission());
+            existingApprentice.setMission(mission);
         }
 
         if (updatedApprentice.getVisit() != null) {
-            visitService.updateVisit(existingApprentice.getVisit().getId(), updatedApprentice.getVisit());
+            Visit visit = updatedApprentice.getVisit();
+            existingApprentice.setVisit(visit);
         }
 
         if (updatedApprentice.getEvaluation() != null) {
-            evaluationService.updateEvaluation(existingApprentice.getEvaluation().getId(), updatedApprentice.getEvaluation());
+            Evaluation eval = existingApprentice.getEvaluation();
+            if (updatedApprentice.getEvaluation().getOral() != null) {
+                Oral oral = updatedApprentice.getEvaluation().getOral();
+                if (oral.getId() == null) {
+                    oral = oralService.updateOral(eval.getOral().getId(), oral);
+                }
+                eval.setOral(oral);
+            }
+            if (updatedApprentice.getEvaluation().getReport() != null) {
+                Report report = updatedApprentice.getEvaluation().getReport();
+                if (report.getId() == null) {
+                    report = reportService.updateReport(eval.getReport().getId(), report);
+                }
+                eval.setReport(report);
+            }
+            existingApprentice.setEvaluation(eval);
         }
 
-        apprenticeRepository.save(existingApprentice);
+        return apprenticeRepository.save(existingApprentice);
     }
 
     @Transactional

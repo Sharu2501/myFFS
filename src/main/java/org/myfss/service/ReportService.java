@@ -25,8 +25,8 @@ public class ReportService {
     public Report updateReport(Long id, Report updatedReport) {
         Report existingReport = getReportById(id);
 
-        validateReportRequiredFields(updatedReport);
         applyChanges(existingReport, updatedReport);
+        validateReportRequiredFields(updatedReport);
 
         return reportRepository.save(existingReport);
     }
