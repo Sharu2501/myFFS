@@ -1,4 +1,4 @@
-package org.myfss.controller;
+package org.myfss.controller.rest;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class ApprenticeController {
     private final ApprenticeService apprenticeService;
 
     @GetMapping("/active")
-    public List<Apprentice> getActiveApprentices() {
+    public List<Apprentice> getAllApprentices() {
         return apprenticeService.getAllApprentices();
     }
 
@@ -38,9 +38,9 @@ public class ApprenticeController {
         return apprenticeService.getApprenticeById(id);
     }
 
-    @PostMapping()
-    public ResponseEntity<Apprentice> createApprentice(@RequestBody Apprentice newApprentice) {
-        Apprentice created = apprenticeService.createApprentice(newApprentice);
+    @PostMapping
+    public ResponseEntity<Apprentice> createApprentice(@RequestBody Apprentice apprentice) {
+        Apprentice created = apprenticeService.createApprentice(apprentice);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 

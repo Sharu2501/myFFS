@@ -1,4 +1,4 @@
-package org.myfss.controller;
+package org.myfss.controller.web;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -63,33 +63,48 @@ public class WebController {
     }
 
     @PostMapping
-    public String createApprentice(@Valid @ModelAttribute Apprentice apprentice, BindingResult result, RedirectAttributes redirectAttributes, Model model) {
+    public String createApprentice(@Valid @ModelAttribute("apprentice") Apprentice apprentice, BindingResult result, RedirectAttributes redirectAttributes, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("companies", companyService.getAllCompanies());
             return "apprentice-form";
         }
 
-        Apprentice createdApprentice = apprenticeService.createApprentice(apprentice);
+        try {
+            Apprentice created = apprenticeService.createApprentice(apprentice);
 
-        redirectAttributes.addFlashAttribute("successMessage",
-                "Apprenti créé avec succès !");
-        return "redirect:/apprentices/" + createdApprentice.getId();
+            redirectAttributes.addFlashAttribute("successMessage",
+                    "Apprenti créé avec succès !");
+
+            return "redirect:/apprentices/" + created.getId();
+
+        } catch (Exception e) {
+            model.addAttribute("companies", companyService.getAllCompanies());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "apprentice-form";
+        }
     }
 
     @PostMapping("/{id}/update")
-    public String updateApprentice(@PathVariable Long id, @Valid @ModelAttribute Apprentice apprentice, BindingResult result, RedirectAttributes redirectAttributes, Model model) {
+    public String updateApprentice(@PathVariable Long id, @Valid @ModelAttribute("apprentice") Apprentice apprentice, BindingResult result, RedirectAttributes redirectAttributes, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("company", companyService.getAllCompanies());
-            model.addAttribute("apprentice", apprentice);
+            model.addAttribute("companies", companyService.getAllCompanies());
             model.addAttribute("apprenticeId", id);
             return "apprentice-edit";
         }
 
-        // apprenticeService.updateApprentice(id, apprentice);
+        try {
+            apprenticeService.updateApprentice(id, apprentice);
 
-        redirectAttributes.addFlashAttribute("successMessage",
-                "Apprenti modifié avec succès !");
-        return "redirect:/apprentices/" + id;
+            redirectAttributes.addFlashAttribute("successMessage",
+                    "Apprenti modifié avec succès !");
+            return "redirect:/apprentices/" + id;
+
+        } catch (Exception e) {
+            model.addAttribute("companies", companyService.getAllCompanies());
+            model.addAttribute("apprenticeId", id);
+            model.addAttribute("errorMessage", e.getMessage());
+            return "apprentice-edit";
+        }
     }
 
     @PostMapping("/new-year")

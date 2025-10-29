@@ -1,4 +1,4 @@
-package org.myfss.controller;
+package org.myfss.controller.rest;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +23,20 @@ public class MissionController {
         return missionService.getAllMissions();
     }
 
+    @GetMapping("/{id}")
+    public Mission getMissionById(@PathVariable Long id) {
+        return missionService.getMissionById(id);
+    }
+
     @PostMapping
-    public ResponseEntity<Mission> createMission(@RequestBody Mission newMission) {
-        Mission createdMission = missionService.createMission(newMission);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdMission);
+    public ResponseEntity<Mission> createMission(@RequestBody Mission mission) {
+        Mission created = missionService.createMission(mission);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Mission> updateMission(@PathVariable Long id, @RequestBody Mission mission) {
+        Mission updated = missionService.updateMission(id, mission);
+        return ResponseEntity.ok(updated);
     }
 }

@@ -11,7 +11,13 @@ import java.util.List;
 
 @Repository
 public interface ApprenticeRepository extends JpaRepository<Apprentice, Long> {
-    
+
+    boolean existsByEmail(String trim);
+
+    boolean existsByLastNameAndFirstName(String lastName, String firstName);
+
+    boolean existsByPhoneNumber(String phoneNumber);
+
     List<Apprentice> findByMajor(Major major);
 
     List<Apprentice> findByMajorNot(Major major);

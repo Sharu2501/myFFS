@@ -1,23 +1,13 @@
+-- =====================================
+--   INITIALISATION DE LA BASE
+-- =====================================
+DROP DATABASE IF EXISTS apprentices_db;
+CREATE DATABASE apprentices_db;
 USE apprentices_db;
 
--- ==============================
---   CREATION DE LA BASE
--- ==============================
-DROP TABLE IF EXISTS apprentices;
-DROP TABLE IF EXISTS visits;
-DROP TABLE IF EXISTS missions;
-DROP TABLE IF EXISTS evaluations;
-DROP TABLE IF EXISTS reports;
-DROP TABLE IF EXISTS oral_exams;
-DROP TABLE IF EXISTS masters;
-DROP TABLE IF EXISTS companies;
-
-CREATE DATABASE IF NOT EXISTS apprentices_db;
-USE apprentices_db;
-
--- ==============================
+-- =====================================
 --   TABLE : companies
--- ==============================
+-- =====================================
 CREATE TABLE companies
 (
     id                 BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -26,23 +16,23 @@ CREATE TABLE companies
     access_information TEXT
 );
 
--- ==============================
+-- =====================================
 --   TABLE : masters
--- ==============================
+-- =====================================
 CREATE TABLE masters
 (
     id           BIGINT AUTO_INCREMENT PRIMARY KEY,
-    last_name    VARCHAR(255) NOT NULL,
-    first_name   VARCHAR(255) NOT NULL,
+    last_name    VARCHAR(30)  NOT NULL,
+    first_name   VARCHAR(30)  NOT NULL,
     position     VARCHAR(255) NOT NULL,
-    email        VARCHAR(255) NOT NULL UNIQUE,
-    phone_number VARCHAR(255) NOT NULL UNIQUE,
+    email        VARCHAR(80)  NOT NULL UNIQUE,
+    phone_number VARCHAR(15)  NOT NULL UNIQUE,
     comments     TEXT
 );
 
--- ==============================
+-- =====================================
 --   TABLE : oral_exams
--- ==============================
+-- =====================================
 CREATE TABLE oral_exams
 (
     id       BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -51,9 +41,9 @@ CREATE TABLE oral_exams
     comments TEXT
 );
 
--- ==============================
+-- =====================================
 --   TABLE : reports
--- ==============================
+-- =====================================
 CREATE TABLE reports
 (
     id       BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -62,9 +52,9 @@ CREATE TABLE reports
     comments TEXT
 );
 
--- ==============================
+-- =====================================
 --   TABLE : evaluations
--- ==============================
+-- =====================================
 CREATE TABLE evaluations
 (
     id        BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -74,9 +64,9 @@ CREATE TABLE evaluations
     CONSTRAINT fk_evaluation_report FOREIGN KEY (report_id) REFERENCES reports (id)
 );
 
--- ==============================
+-- =====================================
 --   TABLE : missions
--- ==============================
+-- =====================================
 CREATE TABLE missions
 (
     id         BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -85,9 +75,9 @@ CREATE TABLE missions
     comments   TEXT
 );
 
--- ==============================
+-- =====================================
 --   TABLE : visits
--- ==============================
+-- =====================================
 CREATE TABLE visits
 (
     id       BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -96,28 +86,28 @@ CREATE TABLE visits
     comments TEXT
 );
 
--- ==============================
+-- =====================================
 --   TABLE : apprentices
--- ==============================
+-- =====================================
 CREATE TABLE apprentices
 (
     id             BIGINT AUTO_INCREMENT PRIMARY KEY,
-    program        VARCHAR(255) NOT NULL,
-    academic_year  VARCHAR(255) NOT NULL,
+    program        VARCHAR(100) NOT NULL,
+    academic_year  VARCHAR(9)   NOT NULL,
     major          VARCHAR(50)  NOT NULL,
-    last_name      VARCHAR(255) NOT NULL,
-    first_name     VARCHAR(255) NOT NULL,
-    email          VARCHAR(255) NOT NULL UNIQUE,
-    phone_number   VARCHAR(255) NOT NULL UNIQUE,
+    last_name      VARCHAR(30)  NOT NULL,
+    first_name     VARCHAR(30)  NOT NULL,
+    email          VARCHAR(80)  NOT NULL UNIQUE,
+    phone_number   VARCHAR(10)  NOT NULL UNIQUE,
     company_id     BIGINT,
-    masters        BIGINT,
+    master_id      BIGINT,
     mission_id     BIGINT,
     visit_id       BIGINT,
     evaluation_id  BIGINT,
-    comments       TEXT,
-    tutor_feedback TEXT,
+    comments       VARCHAR(2000),
+    tutor_feedback VARCHAR(2000),
     CONSTRAINT fk_apprentice_company FOREIGN KEY (company_id) REFERENCES companies (id),
-    CONSTRAINT fk_apprentice_master FOREIGN KEY (masters) REFERENCES masters (id),
+    CONSTRAINT fk_apprentice_master FOREIGN KEY (master_id) REFERENCES masters (id),
     CONSTRAINT fk_apprentice_mission FOREIGN KEY (mission_id) REFERENCES missions (id),
     CONSTRAINT fk_apprentice_visit FOREIGN KEY (visit_id) REFERENCES visits (id),
     CONSTRAINT fk_apprentice_evaluation FOREIGN KEY (evaluation_id) REFERENCES evaluations (id)
