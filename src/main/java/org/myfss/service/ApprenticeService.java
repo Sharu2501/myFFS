@@ -2,7 +2,10 @@ package org.myfss.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.myfss.exception.*;
+import org.myfss.exception.ApprenticeNotFoundException;
+import org.myfss.exception.CompanyNotFoundException;
+import org.myfss.exception.MissingReportForOralException;
+import org.myfss.exception.MissingVisitForEvaluationException;
 import org.myfss.model.*;
 import org.myfss.model.enums.Major;
 import org.myfss.repository.*;
@@ -44,10 +47,18 @@ public class ApprenticeService {
     public Apprentice createApprentice(Apprentice newApprentice) {
         newApprentice.setId(null);
 
-        handleInputCompany(newApprentice);
+        if (newApprentice.getCompanyId() != null) {
+            Company existingCompany = companyRepository.findById(newApprentice.getCompanyId())
+                    .orElseThrow(() -> new CompanyNotFoundException(newApprentice.getCompanyId()));
+            newApprentice.setCompany(existingCompany);
+        } else if (newApprentice.getCompany() != null && isValidNewCompany(newApprentice.getCompany())) {
+            newApprentice.getCompany().setId(null);
+        } else {
+            throw new IllegalArgumentException("Une entreprise doit être sélectionnée ou créée.");
+        }
+
         initializeNewApprentice(newApprentice);
         apprenticeRepository.save(newApprentice);
-
         return newApprentice;
     }
 
@@ -93,44 +104,57 @@ public class ApprenticeService {
 
     private void handleUpdateCompany(Apprentice updatedApprentice, Apprentice existingApprentice) {
         Company updatedCompany = updatedApprentice.getCompany();
-        if (updatedCompany != null) {
-            if (updatedCompany.getId() != null) {
-                Company existingCompany = companyRepository.findById(updatedCompany.getId())
-                        .orElseThrow(() -> new CompanyNotFoundException(updatedCompany.getId()));
-                existingApprentice.setCompany(existingCompany);
-            } else if (isValidNewCompany(updatedCompany)) {
-                updatedCompany.setId(null);
+        if (updatedCompany == null) return;
+
+        Company existingCompany = existingApprentice.getCompany();
+
+        if (existingCompany == null) {
+            if (isValidNewCompany(updatedCompany)) {
                 companyRepository.save(updatedCompany);
                 existingApprentice.setCompany(updatedCompany);
             }
+        } else {
+            existingCompany.setSocialReason(updatedCompany.getSocialReason());
+            existingCompany.setAddress(updatedCompany.getAddress());
+            existingCompany.setAccessInformation(updatedCompany.getAccessInformation());
         }
     }
 
     private void handleUpdateMaster(Apprentice updatedApprentice, Apprentice existingApprentice) {
         Master updatedMaster = updatedApprentice.getMaster();
-        if (updatedMaster != null) {
-            if (updatedMaster.getId() != null) {
-                Master existingMaster = masterRepository.findById(updatedMaster.getId())
-                        .orElseThrow(() -> new CompanyNotFoundException(updatedMaster.getId()));
-                existingApprentice.setMaster(existingMaster);
-            } else if (isValidNewMaster(updatedMaster)) {
-                updatedMaster.setId(null);
+        if (updatedMaster == null) return;
+
+        Master existingMaster = existingApprentice.getMaster();
+
+        if (existingMaster == null) {
+            if (isValidNewMaster(updatedMaster)) {
+                masterRepository.save(updatedMaster);
                 existingApprentice.setMaster(updatedMaster);
             }
+        } else {
+            existingMaster.setFirstName(updatedMaster.getFirstName());
+            existingMaster.setLastName(updatedMaster.getLastName());
+            existingMaster.setEmail(updatedMaster.getEmail());
+            existingMaster.setPhoneNumber(updatedMaster.getPhoneNumber());
+            existingMaster.setPosition(updatedMaster.getPosition());
         }
     }
 
     private void handleUpdateMission(Apprentice updatedApprentice, Apprentice existingApprentice) {
         Mission updatedMission = updatedApprentice.getMission();
-        if (updatedMission != null) {
-            if (updatedMission.getId() != null) {
-                Mission existingMission = missionRepository.findById(updatedMission.getId())
-                        .orElseThrow(() -> new MissionNotFoundException(updatedMission.getId()));
-                existingApprentice.setMission(existingMission);
-            } else if (isValidNewMission(updatedMission)) {
-                updatedMission.setId(null);
+        if (updatedMission == null) return;
+
+        Mission existingMission = existingApprentice.getMission();
+
+        if (existingMission == null) {
+            if (isValidNewMission(updatedMission)) {
+                missionRepository.save(updatedMission);
                 existingApprentice.setMission(updatedMission);
             }
+        } else {
+            existingMission.setKeywords(updatedMission.getKeywords());
+            existingMission.setProfession(updatedMission.getProfession());
+            existingMission.setComments(updatedMission.getComments());
         }
     }
 
@@ -275,8 +299,17 @@ public class ApprenticeService {
     }
 
     private boolean isValidNewCompany(Company company) {
-        return company.getSocialReason() != null && !company.getSocialReason().trim().isEmpty()
-                && company.getAddress() != null && !company.getAddress().trim().isEmpty();
+        if (company == null) return false;
+
+        boolean socialReasonOk = company.getSocialReason() != null &&
+                !company.getSocialReason().trim().isEmpty() &&
+                company.getSocialReason().matches("^[A-Za-z0-9À-ÖØ-öø-ÿ .,\\-]+$");
+
+        boolean addressOk = company.getAddress() != null &&
+                !company.getAddress().trim().isEmpty() &&
+                company.getAddress().matches("^[A-Za-z0-9À-ÖØ-öø-ÿ .,\\-]+$");
+
+        return socialReasonOk && addressOk;
     }
 
     private boolean isValidNewMaster(Master master) {

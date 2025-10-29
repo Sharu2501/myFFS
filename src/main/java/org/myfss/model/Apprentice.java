@@ -63,16 +63,18 @@ public class Apprentice {
 
     @NotBlank(message = "Le numéro de téléphone est obligatoire.")
     @Pattern(
-            regexp = "^\\d{10}$",
+            regexp = "^0\\d{9}$",
             message = "Le numéro de téléphone doit contenir exactement 10 chiffres (ex: 0612345678)."
     )
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Valid
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @Transient
+    private Long companyId;
 
     @Valid
     @OneToOne(cascade = CascadeType.ALL)

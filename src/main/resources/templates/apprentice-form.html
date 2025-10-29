@@ -84,7 +84,7 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label for="companySelect">Entreprise existante<span class="required">*</span></label>
-                    <select id="companySelect" th:field="*{company.id}">
+                    <select id="companySelect" th:field="*{companyId}">
                         <option value="">Sélectionnez...</option>
                         <option th:each="c : ${companies}" th:value="${c.id}" th:text="${c.socialReason}"></option>
                     </select>
@@ -113,7 +113,7 @@
                         <label>
                             <textarea th:field="*{company.accessInformation}"></textarea>
                             <span class="error" th:if="${#fields.hasErrors('company.accessInformation')}"
-                            th:errors="*{company.accessInformation}"></span>
+                                  th:errors="*{company.accessInformation}"></span>
                         </label>
                     </div>
                 </div>
@@ -127,26 +127,36 @@
                 <div class="form-group">
                     <label for="masterLastName">Nom <span class="required">*</span></label>
                     <input type="text" id="masterLastName" th:field="*{master.lastName}" required>
+                    <span class="error" th:if="${#fields.hasErrors('master.lastName')}"
+                          th:errors="*{master.lastName}"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="masterFirstName">Prénom <span class="required">*</span></label>
                     <input type="text" id="masterFirstName" th:field="*{master.firstName}" required>
+                    <span class="error" th:if="${#fields.hasErrors('master.firstName')}"
+                          th:errors="*{master.firstName}"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="masterEmail">Email <span class="required">*</span></label>
                     <input type="email" id="masterEmail" th:field="*{master.email}" required>
+                    <span class="error" th:if="${#fields.hasErrors('master.email')}"
+                          th:errors="*{master.email}"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="masterPhone">Téléphone<span class="required">*</span></label>
                     <input type="tel" id="masterPhone" th:field="*{master.phoneNumber}">
+                    <span class="error" th:if="${#fields.hasErrors('master.phoneNumber')}"
+                          th:errors="*{master.phoneNumber}"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="masterPosition">Poste<span class="required">*</span></label>
                     <input type="text" id="masterPosition" th:field="*{master.position}">
+                    <span class="error" th:if="${#fields.hasErrors('master.position')}"
+                          th:errors="*{master.position}"></span>
                 </div>
             </div>
         </div>
@@ -158,6 +168,8 @@
                 <div class="form-group">
                     <label for="missionKeywords">Mots clés <span class="required">*</span></label>
                     <input type="text" id="missionKeywords" th:field="*{mission.keywords}" required>
+                    <span class="error" th:if="${#fields.hasErrors('mission.keywords')}"
+                          th:errors="*{mission.keywords}"></span>
                 </div>
 
                 <div class="form-group">
