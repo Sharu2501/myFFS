@@ -47,7 +47,7 @@ public class Master {
 
     @NotBlank(message = "Le numéro de téléphone est obligatoire.")
     @Pattern(
-            regexp = "^\\d{10}$",
+            regexp = "^0\\d{9}$",
             message = "Le numéro de téléphone doit contenir exactement 10 chiffres (ex: 0612345678)."
     )
     @Column(name = "phone_number")

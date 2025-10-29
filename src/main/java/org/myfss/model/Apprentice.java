@@ -1,6 +1,7 @@
 package org.myfss.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import org.myfss.model.enums.Major;
@@ -59,7 +60,7 @@ public class Apprentice {
 
     @NotBlank(message = "Le numéro de téléphone est obligatoire.")
     @Pattern(
-            regexp = "^\\d{10}$",
+            regexp = "^0\\d{9}$",
             message = "Le numéro de téléphone doit contenir exactement 10 chiffres (ex: 0612345678)."
     )
     @Column(name = "phone_number")
@@ -71,18 +72,22 @@ public class Apprentice {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "master_id")
+    @Valid
     private Master master;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "mission_id")
+    @Valid
     private Mission mission;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "visit_id")
+    @Valid
     private Visit visit;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "evaluation_id")
+    @Valid
     private Evaluation evaluation;
 
     @Size(max = 2000, message = "Les commentaires ne doivent pas dépasser 2000 caractères.")
