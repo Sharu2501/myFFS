@@ -1,6 +1,5 @@
 package org.myfss.service;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.myfss.model.Report;
 import org.myfss.repository.ReportRepository;
