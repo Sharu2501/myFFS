@@ -20,6 +20,10 @@
         <h2>Ajouter un apprenti</h2>
     </div>
 
+    <div th:if="${errorMessage}" class="form-error" style="color:red; margin-bottom: 1em;">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
     <form th:action="@{/apprentices}" method="post" th:object="${apprentice}" class="apprentice-form">
 
         <!-- Informations personnelles -->
@@ -28,27 +32,25 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label for="lastName">Nom <span class="required">*</span></label>
-                    <input type="text" id="lastName" th:field="*{lastName}">
+                    <input type="text" id="lastName" th:field="*{lastName}" required>
                     <span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="firstName">Prénom <span class="required">*</span></label>
-                    <input type="text" id="firstName" th:field="*{firstName}">
+                    <input type="text" id="firstName" th:field="*{firstName}" required>
                     <span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email <span class="required">*</span></label>
-                    <input type="email" id="email" th:field="*{email}" maxlength="50" required
-                           title="Entrez une adresse email valide">
+                    <input type="email" id="email" th:field="*{email}" maxlength="50" required>
                     <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="phoneNumber">Téléphone <span class="required">*</span></label>
-                    <input type="tel" id="phoneNumber" th:field="*{phoneNumber}"
-                            title="Numéro de téléphone valide (ex: 0612345678)">
+                    <input type="tel" id="phoneNumber" th:field="*{phoneNumber}" required>
                     <span class="error" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
                 </div>
             </div>
@@ -61,15 +63,14 @@
                 <div class="form-group">
                     <label for="program">Programme <span class="required">*</span></label>
                     <input type="text" id="program" th:field="*{program}" maxlength="20" required>
-                    <span class="error" th:if="${#fields.hasErrors('program')}" th:errors="*{program}"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="academicYear">Année académique <span class="required">*</span></label>
-                    <input type="text" id="academicYear" th:field="*{academicYear}" maxlength="9" required>
-                    <span class="error" th:if="${#fields.hasErrors('academicYear')}" th:errors="*{academicYear}"></span>
+                    <input type="text" id="academicYear" th:field="*{academicYear}"
+                           pattern="[0-9]{4}-[0-9]{4}" placeholder="2024-2025" required>
+                    <small>Format : YYYY-YYYY (ex: 2024-2025)</small>
                 </div>
-
                 <div class="form-group">
                     <label for="major">Spécialité <span class="required">*</span></label>
                     <select id="major" th:field="*{major}" required>
@@ -78,7 +79,6 @@
                                 th:unless="${m.name() == 'ALUMNI'}"
                                 th:value="${m}" th:text="${m}"></option>
                     </select>
-                    <span class="error" th:if="${#fields.hasErrors('major')}" th:errors="*{major}"></span>
                 </div>
             </div>
         </div>
@@ -88,24 +88,58 @@
             <h3>Entreprise</h3>
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="companySelect">Entreprise</label>
+                    <label for="companySelect">Entreprise existante<span class="required">*</span></label>
                     <select id="companySelect" th:field="*{company.id}">
                         <option value="">Sélectionnez...</option>
                         <option th:each="c : ${companies}" th:value="${c.id}" th:text="${c.socialReason}"></option>
                     </select>
-                    <button type="button" onclick="document.getElementById('newCompanyFields').style.display='block'">+ Ajouter entreprise</button>
+                    <button type="button" onclick="toggleNewCompanyFields()">+ Ajouter une nouvelle entreprise</button>
                 </div>
 
-                <div id="newCompanyFields" style="display:none">
-                    <label>
-                        <input type="text" th:field="*{company.socialReason}" placeholder="Raison sociale">
-                    </label>
-                    <label>
-                        <input type="text" th:field="*{company.address}" placeholder="Adresse">
-                    </label>
-                    <label>
-                        <textarea th:field="*{company.accessInformation}" placeholder="Informations d'accès"></textarea>
-                    </label>
+                <div id="newCompanyFields" style="display:none; margin-top:1em; grid-column: 1 / -1;">
+                    <div class="form-group" style="margin-bottom: 20px">
+                        <label>Raison sociale<span class="required">*</span></label>
+                        <input type="text" th:field="*{company.socialReason}">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 20px">
+                        <label>Adresse<span class="required">*</span></label>
+                        <input type="text" th:field="*{company.address}">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 20px">
+                        <label>Informations d'accès</label>
+                        <textarea th:field="*{company.accessInformation}"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Maître d'apprentissage -->
+        <div class="form-section">
+            <h3>Maître d'apprentissage</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="masterLastName">Nom <span class="required">*</span></label>
+                    <input type="text" id="masterLastName" th:field="*{master.lastName}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="masterFirstName">Prénom <span class="required">*</span></label>
+                    <input type="text" id="masterFirstName" th:field="*{master.firstName}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="masterEmail">Email <span class="required">*</span></label>
+                    <input type="email" id="masterEmail" th:field="*{master.email}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="masterPhone">Téléphone<span class="required">*</span></label>
+                    <input type="tel" id="masterPhone" th:field="*{master.phoneNumber}">
+                </div>
+
+                <div class="form-group">
+                    <label for="masterPosition">Poste<span class="required">*</span></label>
+                    <input type="text" id="masterPosition" th:field="*{master.position}">
                 </div>
             </div>
         </div>
@@ -113,54 +147,38 @@
         <!-- Mission -->
         <div class="form-section">
             <h3>Mission</h3>
-            <div class="form-group">
-                <button id="newMission" type="button" onclick="document.getElementById('newMissionFields').style.display='block'">Ajouter la mission</button>
-                <div id="newMissionFields" style="display:none">
-                    <label>
-                        Mots clés
-                        <input type="text" th:field="*{mission.keywords}" placeholder="Mots clés">
-                    </label>
-                    <label>
-                        Poste
-                        <input type="text" th:field="*{mission.profession}" placeholder="Poste">
-                    </label>
-                    <label>
-                        Commentaires
-                        <textarea th:field="*{mission.comments}" placeholder="Commentaires"></textarea>
-                    </label>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="missionKeywords">Mots clés <span class="required">*</span></label>
+                    <input type="text" id="missionKeywords" th:field="*{mission.keywords}" required>
                 </div>
-                <span class="error" th:if="${#fields.hasErrors('mission')}" th:errors="*{mission}"></span>
+
+                <div class="form-group">
+                    <label for="missionProfession">Poste <span class="required">*</span></label>
+                    <input type="text" id="missionProfession" th:field="*{mission.profession}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="missionComments">Commentaires</label>
+                    <textarea id="missionComments" th:field="*{mission.comments}" rows="3"></textarea>
+                </div>
             </div>
         </div>
 
-        <!-- Maître d'apprentissage -->
-        <div class="form-section">
-            <h3>Maître d'apprentissage</h3>
-            <div class="form-group">
-                <label for="master">Maître <span class="required">*</span></label>
-                <select id="master" th:field="*{master}" required>
-                    <option value="">Sélectionnez...</option>
-                    <option th:each="m : ${masters}" th:value="${m.id}"
-                            th:text="${m.firstName + ' ' + m.lastName}"></option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Commentaires / Tuteur -->
+        <!-- Commentaires -->
         <div class="form-section">
             <h3>Commentaires</h3>
             <div class="form-group">
                 <label for="comments">Commentaires</label>
                 <textarea id="comments" th:field="*{comments}" rows="4" maxlength="2000"></textarea>
-                <span class="char-count"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-top: 20px">
                 <label for="tutorFeedback">Retour du tuteur</label>
                 <textarea id="tutorFeedback" th:field="*{tutorFeedback}" rows="4" maxlength="2000"></textarea>
-                <span class="char-count"></span>
             </div>
         </div>
 
+        <!-- Boutons -->
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Créer l'apprenti</button>
             <a th:href="@{/apprentices}" class="btn btn-secondary">Annuler</a>
@@ -171,3 +189,48 @@
 
 </body>
 </html>
+
+<script>
+    function toggleNewCompanyFields() {
+        const newFields = document.getElementById('newCompanyFields');
+        const companySelect = document.getElementById('companySelect');
+        const btn = event.target;
+
+        if (newFields.style.display === 'none' || newFields.style.display === '') {
+            // Afficher les champs de nouvelle entreprise
+            newFields.style.display = 'block';
+            companySelect.value = '';
+            companySelect.disabled = true;
+            btn.textContent = '✕ Annuler nouvelle entreprise';
+
+            // Rendre les champs obligatoires
+            document.querySelector('[th\\:field="*{company.socialReason}"]').required = true;
+            document.querySelector('[th\\:field="*{company.address}"]').required = true;
+        } else {
+            // Masquer les champs de nouvelle entreprise
+            newFields.style.display = 'none';
+            companySelect.disabled = false;
+            btn.textContent = '+ Ajouter une nouvelle entreprise';
+
+            // Retirer l'obligation des champs
+            document.querySelector('[th\\:field="*{company.socialReason}"]').required = false;
+            document.querySelector('[th\\:field="*{company.address}"]').required = false;
+
+            // Vider les champs
+            document.querySelector('[th\\:field="*{company.socialReason}"]').value = '';
+            document.querySelector('[th\\:field="*{company.address}"]').value = '';
+            document.querySelector('[th\\:field="*{company.accessInformation}"]').value = '';
+        }
+    }
+
+    // Gérer le changement de sélection de l'entreprise
+    document.getElementById('companySelect').addEventListener('change', function () {
+        if (this.value) {
+            const newFields = document.getElementById('newCompanyFields');
+            if (newFields.style.display === 'block') {
+                newFields.style.display = 'none';
+                document.querySelector('.btn[onclick="toggleNewCompanyFields()"]').textContent = '+ Ajouter une nouvelle entreprise';
+            }
+        }
+    });
+</script>

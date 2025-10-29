@@ -12,18 +12,26 @@ import java.util.List;
 @Repository
 public interface ApprenticeRepository extends JpaRepository<Apprentice, Long> {
 
+    boolean existsByEmail(String trim);
+
+    boolean existsByLastNameAndFirstName(String lastName, String firstName);
+
+    boolean existsByPhoneNumber(String phoneNumber);
+
+    List<Apprentice> findByMajor(Major major);
+
     List<Apprentice> findByMajorNot(Major major);
 
     @Query("""
-        SELECT a FROM Apprentice a
-        LEFT JOIN a.company c
-        LEFT JOIN a.mission m
-        WHERE (:name IS NULL OR LOWER(a.lastName) LIKE LOWER(CONCAT('%', :name, '%')) OR LOWER(a.firstName) LIKE LOWER(CONCAT('%', :name, '%')))
-        AND (:company IS NULL OR c.id IS NULL OR LOWER(c.socialReason) LIKE LOWER(CONCAT('%', :company, '%')))
-        AND (:missionKeyword IS NULL OR m.id IS NULL OR LOWER(m.keywords) LIKE LOWER(CONCAT('%', :missionKeyword, '%')))
-        AND (:academicYear IS NULL OR a.academicYear LIKE CONCAT('%', :academicYear, '%'))
-        AND (a.major IS NULL OR a.major <> 'ALUMNI')
-    """)
+                SELECT a FROM Apprentice a
+                LEFT JOIN a.company c
+                LEFT JOIN a.mission m
+                WHERE (:name IS NULL OR LOWER(a.lastName) LIKE LOWER(CONCAT('%', :name, '%')) OR LOWER(a.firstName) LIKE LOWER(CONCAT('%', :name, '%')))
+                AND (:company IS NULL OR c.id IS NULL OR LOWER(c.socialReason) LIKE LOWER(CONCAT('%', :company, '%')))
+                AND (:missionKeyword IS NULL OR m.id IS NULL OR LOWER(m.keywords) LIKE LOWER(CONCAT('%', :missionKeyword, '%')))
+                AND (:academicYear IS NULL OR a.academicYear LIKE CONCAT('%', :academicYear, '%'))
+                AND (a.major IS NULL OR a.major <> 'ALUMNI')
+            """)
     List<Apprentice> searchApprentices(
             @Param("name") String name,
             @Param("company") String company,

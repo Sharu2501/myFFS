@@ -1,15 +1,14 @@
-<!-- templates/fragments/header.html -->
 <header class="header-bar">
-  <div class="header-left">
-    <h1>MyFSS</h1>
-  </div>
-  <div class="header-right">
+    <div class="header-left">
+        <h1>MyFSS</h1>
+    </div>
+    <div class="header-right">
         <span th:if="${#authorization.expression('isAuthenticated()')}"
               class="welcome-text">
             👋 Bienvenue, <strong th:text="${#authentication.name}">Utilisateur</strong>
         </span>
-    <form th:action="@{/logout}" method="post">
-      <button type="submit" class="btn-logout">Déconnexion</button>
-    </form>
-  </div>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn-logout">Déconnexion</button>
+        </form>
+    </div>
 </header>

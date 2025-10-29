@@ -32,11 +32,13 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
-                                "/swagger-ui.html",
-                                "/api/apprentices/new-academic-year"
+                                "/swagger-ui.html"
                         )
                         .permitAll()
                         .anyRequest().authenticated()
+                )
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/api/**")
                 )
                 .formLogin(form -> form
                         .loginPage("/login")

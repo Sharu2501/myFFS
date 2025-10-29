@@ -1,4 +1,4 @@
-package org.myfss.controller;
+package org.myfss.controller.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

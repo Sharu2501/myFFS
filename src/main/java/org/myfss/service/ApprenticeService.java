@@ -2,41 +2,38 @@ package org.myfss.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.myfss.exception.ApprenticeNotFoundException;
-import org.myfss.exception.InvalidApprenticeDataException;
-import org.myfss.model.Apprentice;
-import org.myfss.dto.ApprenticeUpdateDTO;
-import org.myfss.model.Company;
-import org.myfss.model.Master;
+import org.myfss.exception.ApprenticeExceptions.*;
+import org.myfss.model.*;
 import org.myfss.model.enums.Major;
-import org.myfss.repository.CompanyRepository;
-import org.myfss.repository.MasterRepository;
-import org.springframework.stereotype.Service;
 import org.myfss.repository.ApprenticeRepository;
+import org.myfss.util.ValidationUtils;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class ApprenticeService {
 
     private final ApprenticeRepository apprenticeRepository;
-    private final MasterRepository masterRepository;
-    private final CompanyRepository companyRepository;
+
+    private final MasterService masterService;
+    private final CompanyService companyService;
+    private final MissionService missionService;
+    private final OralService oralService;
+    private final ReportService reportService;
 
     public List<Apprentice> getAllApprentices() {
         return apprenticeRepository.findByMajorNot(Major.ALUMNI);
     }
 
-    public List<Apprentice> getAllApprenticesAndAlumni() {
-        return apprenticeRepository.findAll();
+    public List<Apprentice> getAllAlumni() {
+        return apprenticeRepository.findByMajor(Major.ALUMNI);
     }
 
-    public List<Apprentice> getAllAlumni() {
-        return apprenticeRepository.findAll()
-                .stream()
-                .filter(a -> a.getMajor() == Major.ALUMNI)
-                .toList();
+    public List<Apprentice> getAllApprenticesAndAlumni() {
+        return apprenticeRepository.findAll();
     }
 
     public Apprentice getApprenticeById(Long id) {
@@ -46,60 +43,135 @@ public class ApprenticeService {
 
     @Transactional
     public Apprentice createApprentice(Apprentice newApprentice) {
-        if (newApprentice == null) {
-            throw new InvalidApprenticeDataException("Données de l'apprenti invalides.");
-        }
+        validateApprenticeRequiredFields(newApprentice);
+        initializeSubobject(newApprentice);
         newApprentice.setId(null);
+
         return apprenticeRepository.save(newApprentice);
     }
 
     @Transactional
-    public Apprentice updateApprentice(Long id, ApprenticeUpdateDTO dto) {
-        if (dto == null) {
-            throw new InvalidApprenticeDataException("Données de mise à jour invalides.");
+    public Apprentice updateApprentice(Long id, Apprentice updatedApprentice) {
+        Apprentice existingApprentice = getApprenticeById(id);
+
+        existingApprentice.setFirstName(updatedApprentice.getFirstName());
+        existingApprentice.setLastName(updatedApprentice.getLastName());
+        existingApprentice.setEmail(updatedApprentice.getEmail());
+        existingApprentice.setPhoneNumber(updatedApprentice.getPhoneNumber());
+        existingApprentice.setAcademicYear(updatedApprentice.getAcademicYear());
+        existingApprentice.setProgram(updatedApprentice.getProgram());
+        existingApprentice.setMajor(updatedApprentice.getMajor());
+        existingApprentice.setComments(updatedApprentice.getComments());
+        existingApprentice.setTutorFeedback(updatedApprentice.getTutorFeedback());
+
+        if (updatedApprentice.getCompany() != null) {
+            Company company = updatedApprentice.getCompany().getId() != null ?
+                    companyService.getCompanyById(updatedApprentice.getCompany().getId()) :
+                    companyService.createCompany(updatedApprentice.getCompany());
+            existingApprentice.setCompany(company);
         }
 
-        Apprentice existing = getApprenticeById(id);
-
-        // Champs simples
-        existing.setProgram(dto.getProgram());
-        existing.setAcademicYear(dto.getAcademicYear());
-        existing.setMajor(dto.getMajor());
-        existing.setFirstName(dto.getFirstName());
-        existing.setLastName(dto.getLastName());
-        existing.setEmail(dto.getEmail());
-        existing.setPhoneNumber(dto.getPhoneNumber());
-
-        // Associations
-        if (dto.getCompanyId() != null) {
-            Company company = companyRepository.getCompanyById(dto.getCompanyId());
-            existing.setCompany(company);
-        } else {
-            existing.setCompany(null);
+        if (updatedApprentice.getMaster() != null) {
+            Master master = updatedApprentice.getMaster().getId() != null ?
+                    masterService.getMasterById(updatedApprentice.getMaster().getId()) :
+                    masterService.createMaster(updatedApprentice.getMaster());
+            existingApprentice.setMaster(master);
         }
 
-        if (dto.getMasterId() != null) {
-            Master master = masterRepository.getMasterById(dto.getMasterId());
-            existing.setMaster(master);
-        } else {
-            existing.setMaster(null);
+        if (updatedApprentice.getMission() != null) {
+            Mission mission = updatedApprentice.getMission().getId() != null ?
+                    missionService.getMissionById(updatedApprentice.getMission().getId()) :
+                    missionService.createMission(updatedApprentice.getMission());
+            existingApprentice.setMission(mission);
         }
 
-        return apprenticeRepository.save(existing);
+        if (updatedApprentice.getVisit() != null) {
+            Visit visit = updatedApprentice.getVisit();
+            existingApprentice.setVisit(visit);
+        }
+
+        if (updatedApprentice.getEvaluation() != null) {
+            Evaluation eval = existingApprentice.getEvaluation();
+            if (updatedApprentice.getEvaluation().getOral() != null) {
+                Oral oral = updatedApprentice.getEvaluation().getOral();
+                if (oral.getId() == null) {
+                    oral = oralService.updateOral(eval.getOral().getId(), oral);
+                }
+                eval.setOral(oral);
+            }
+            if (updatedApprentice.getEvaluation().getReport() != null) {
+                Report report = updatedApprentice.getEvaluation().getReport();
+                if (report.getId() == null) {
+                    report = reportService.updateReport(eval.getReport().getId(), report);
+                }
+                eval.setReport(report);
+            }
+            existingApprentice.setEvaluation(eval);
+        }
+
+        return apprenticeRepository.save(existingApprentice);
     }
 
     @Transactional
     public void createNewAcademicYear() {
         List<Apprentice> allApprentices = getAllApprentices();
-
         for (Apprentice apprentice : allApprentices) {
             apprentice.setMajor(apprentice.getMajor().next());
         }
-
         apprenticeRepository.saveAll(allApprentices);
     }
 
     public List<Apprentice> searchApprentices(String name, String company, String missionKeyword, String academicYear) {
         return apprenticeRepository.searchApprentices(name, company, missionKeyword, academicYear);
+    }
+
+    private void validateApprenticeRequiredFields(Apprentice apprentice) {
+        ValidationUtils.validateRequiredFields(
+                Map.of(
+                        "nom", apprentice.getLastName(),
+                        "prénom", apprentice.getFirstName(),
+                        "email", apprentice.getEmail(),
+                        "numéro de téléphone", apprentice.getPhoneNumber(),
+                        "programme", apprentice.getProgram(),
+                        "année académique", apprentice.getAcademicYear(),
+                        "spécialité", apprentice.getMajor(),
+                        "entreprise", apprentice.getCompany(),
+                        "maître d'apprentissage", apprentice.getMaster(),
+                        "mission", apprentice.getMission()
+                ),
+                InvalidApprenticeDataException::new
+        );
+
+        ValidationUtils.checkConflicts(
+                Map.of(
+                        "L'email de l'apprenti existe déjà.", () -> apprenticeRepository.existsByEmail(apprentice.getEmail().trim()),
+                        "Le numéro de téléphone de l'apprenti exisite déjà.", () -> apprenticeRepository.existsByPhoneNumber(apprentice.getPhoneNumber().trim()),
+                        "Le nom et prénom de l'apprenti existent déjà.", () -> apprenticeRepository.existsByLastNameAndFirstName(
+                                apprentice.getLastName().trim(), apprentice.getFirstName().trim()
+                        )
+                ),
+                ApprenticeAlreadyExistsException::new
+        );
+    }
+
+    private void initializeSubobject(Apprentice apprentice) {
+        Company company = apprentice.getCompany();
+        Company existingCompany = company.getId() != null ? companyService.getCompanyById(company.getId()) : companyService.createCompany(company);
+        apprentice.setCompany(existingCompany);
+
+        Master master = masterService.createMaster(apprentice.getMaster());
+        apprentice.setMaster(master);
+
+        Mission mission = missionService.createMission(apprentice.getMission());
+        apprentice.setMission(mission);
+
+        apprentice.setEvaluation(new Evaluation());
+        apprentice.getEvaluation().setOral(new Oral());
+        apprentice.getEvaluation().setReport(new Report());
+
+        apprentice.setVisit(new Visit());
+
+        apprentice.setComments(apprentice.getComments() != null ? apprentice.getComments() : "");
+        apprentice.setTutorFeedback(apprentice.getTutorFeedback() != null ? apprentice.getTutorFeedback() : "");
     }
 }

@@ -1,6 +1,9 @@
 package org.myfss.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Entity
@@ -14,9 +17,14 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "La raison sociale est obligatoire.")
+    @Size(max = 50, message = "La raison sociale ne doit pas dépasser 50 caractères.")
+    @Pattern(regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ'\\- ]+$", message = "Le postion contient des caractères invalides.")
     @Column(name = "social_reason")
     private String socialReason;
 
+    @NotBlank(message = "L'adresse est obligatoire.")
+    @Size(max = 100, message = "L'adresse ne doit pas dépasser 100 caractères.")
     @Column(name = "address")
     private String address;
 

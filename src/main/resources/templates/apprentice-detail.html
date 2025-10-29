@@ -28,6 +28,8 @@
     </div>
 
     <div class="detail-grid">
+
+        <!-- Données personnelles -->
         <section class="detail-card">
             <h3>Informations personnelles</h3>
             <div class="detail-row">
@@ -48,6 +50,7 @@
             </div>
         </section>
 
+        <!-- École -->
         <section class="detail-card">
             <h3>Formation</h3>
             <div class="detail-row">
@@ -64,6 +67,7 @@
             </div>
         </section>
 
+        <!-- Entreprise -->
         <section class="detail-card" th:if="${apprentice.company != null}">
             <h3>Entreprise</h3>
             <div class="detail-row">
@@ -74,12 +78,13 @@
                 <span class="label">Adresse :</span>
                 <span class="value" th:text="${apprentice.company.address}">-</span>
             </div>
-            <div class="detail-row" th:if="${apprentice.company.accessInformation != null}">
+            <div class="detail-row long-text" th:if="${apprentice.company.accessInformation != null}">
                 <span class="label">Accès :</span>
                 <span class="value" th:text="${apprentice.company.accessInformation}">-</span>
             </div>
         </section>
 
+        <!-- Maître d'apprentissage -->
         <section class="detail-card" th:if="${apprentice.master != null}">
             <h3>Maître d'apprentissage</h3>
             <div class="detail-row">
@@ -100,6 +105,7 @@
             </div>
         </section>
 
+        <!-- Mission -->
         <section class="detail-card" th:if="${apprentice.mission != null}">
             <h3>Mission</h3>
             <div class="detail-row">
@@ -110,12 +116,13 @@
                 <span class="label">Mots-clés :</span>
                 <span class="value" th:text="${apprentice.mission.keywords}">-</span>
             </div>
-            <div class="detail-row" th:if="${apprentice.mission.comments != null}">
+            <div class="detail-row long-text" th:if="${apprentice.mission.comments != null}">
                 <span class="label">Commentaires :</span>
                 <span class="value" th:text="${apprentice.mission.comments}">-</span>
             </div>
         </section>
 
+        <!-- Visite -->
         <section class="detail-card" th:if="${apprentice.visit != null}">
             <h3>Visite</h3>
             <div class="detail-row">
@@ -126,12 +133,53 @@
                 <span class="label">Format :</span>
                 <span class="value" th:text="${apprentice.visit.format}">-</span>
             </div>
-            <div class="detail-row" th:if="${apprentice.visit.comments != null}">
+            <div class="detail-row long-text" th:if="${apprentice.visit.comments != null}">
                 <span class="label">Commentaires :</span>
                 <span class="value" th:text="${apprentice.visit.comments}">-</span>
             </div>
         </section>
 
+        <!-- Évaluation -->
+        <section class="detail-card full-width" th:if="${apprentice.evaluation != null}">
+            <h3>Évaluation</h3>
+
+            <!-- Mémoire -->
+            <div th:if="${apprentice.evaluation.report != null}">
+                <h4>Mémoire</h4>
+                <div class="detail-row">
+                    <span class="label">Thème :</span>
+                    <span class="value" th:text="${apprentice.evaluation.report.theme}">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Note :</span>
+                    <span class="value" th:text="${apprentice.evaluation.report.grade}">-</span>
+                </div>
+                <div class="detail-row" th:if="${apprentice.evaluation.report.comments != null}">
+                    <span class="label">Commentaires :</span>
+                    <span class="value" th:text="${apprentice.evaluation.report.comments}">-</span>
+                </div>
+            </div>
+
+            <!-- Oral -->
+            <div th:if="${apprentice.evaluation.oral != null}" class="evaluation-section" style="margin-top: 20px;">
+                <h4>Oral</h4>
+                <div class="detail-row">
+                    <span class="label">Date :</span>
+                    <span class="value"
+                          th:text="${#temporals.format(apprentice.evaluation.oral.date, 'dd/MM/yyyy')}">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Note :</span>
+                    <span class="value" th:text="${apprentice.evaluation.oral.grade}">-</span>
+                </div>
+                <div class="detail-row" th:if="${apprentice.evaluation.oral.comments != null}">
+                    <span class="label">Commentaires :</span>
+                    <span class="value" th:text="${apprentice.evaluation.oral.comments}">-</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Commentaires -->
         <section class="detail-card full-width" th:if="${apprentice.comments != null}">
             <h3>Commentaires</h3>
             <p class="text-content" th:text="${apprentice.comments}">-</p>

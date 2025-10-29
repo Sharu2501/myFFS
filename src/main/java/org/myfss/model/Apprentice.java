@@ -18,8 +18,8 @@ public class Apprentice {
     private Long id;
 
     @NotBlank(message = "Le programme est obligatoire.")
-    @Size(max = 100, message = "Le nom du programme ne doit pas dépasser 100 caractères.")
-    @Column(name = "program", nullable = false)
+    @Size(max = 150, message = "Le nom du programme ne doit pas dépasser 150 caractères.")
+    @Column(name = "program")
     private String program;
 
     @NotBlank(message = "L'année académique est obligatoire.")
@@ -27,24 +27,24 @@ public class Apprentice {
             regexp = "^[0-9]{4}-[0-9]{4}$",
             message = "L'année académique doit être au format YYYY-YYYY (ex: 2024-2025)."
     )
-    @Column(name = "academic_year", nullable = false)
+    @Column(name = "academic_year")
     private String academicYear;
 
     @NotNull(message = "La spécialité est obligatoire.")
     @Enumerated(EnumType.STRING)
-    @Column(name = "major", nullable = false)
+    @Column(name = "major")
     private Major major;
 
     @NotBlank(message = "Le nom est obligatoire.")
-    @Size(max = 20, message = "Le nom ne doit pas dépasser 20 caractères.")
+    @Size(max = 30, message = "Le nom ne doit pas dépasser 30 caractères.")
     @Pattern(regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ'\\- ]+$", message = "Le nom contient des caractères invalides.")
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name")
     private String lastName;
 
     @NotBlank(message = "Le prénom est obligatoire.")
-    @Size(max = 20, message = "Le prénom ne doit pas dépasser 20 caractères.")
+    @Size(max = 30, message = "Le prénom ne doit pas dépasser 30 caractères.")
     @Pattern(regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ'\\- ]+$", message = "Le prénom contient des caractères invalides.")
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name")
     private String firstName;
 
     @NotBlank(message = "L'adresse e-mail est obligatoire.")
@@ -53,8 +53,8 @@ public class Apprentice {
             regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
             message = "L'adresse e-mail doit être valide et contenir un domaine (ex: exemple@gmail.com)."
     )
-    @Size(max = 50, message = "L'adresse e-mail ne doit pas dépasser 50 caractères.")
-    @Column(name = "email", nullable = false, unique = true)
+    @Size(max = 80, message = "L'adresse e-mail ne doit pas dépasser 80 caractères.")
+    @Column(name = "email")
     private String email;
 
     @NotBlank(message = "Le numéro de téléphone est obligatoire.")
@@ -62,31 +62,34 @@ public class Apprentice {
             regexp = "^\\d{10}$",
             message = "Le numéro de téléphone doit contenir exactement 10 chiffres (ex: 0612345678)."
     )
-    @Column(name = "phone_number", nullable = false)
+    @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @OneToOne
-    @JoinColumn(name = "masters")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "master_id")
     private Master master;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "mission_id")
     private Mission mission;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "visit_id")
     private Visit visit;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "evaluation_id")
     private Evaluation evaluation;
 
     @Size(max = 2000, message = "Les commentaires ne doivent pas dépasser 2000 caractères.")
-    @Column(name = "comments", columnDefinition = "TEXT")
+    @Column(name = "comments")
     private String comments;
 
     @Size(max = 2000, message = "Le retour du tuteur ne doit pas dépasser 2000 caractères.")
-    @Column(name = "tutor_feedback", columnDefinition = "TEXT")
+    @Column(name = "tutor_feedback")
     private String tutorFeedback;
 }
