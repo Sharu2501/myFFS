@@ -3,8 +3,7 @@ package org.myfss.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.myfss.model.*;
-import org.myfss.service.ApprenticeService;
-import org.myfss.service.CompanyService;
+import org.myfss.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +17,11 @@ public class WebController {
 
     private final ApprenticeService apprenticeService;
     private final CompanyService companyService;
+    private final MasterService masterService;
+    private final VisitService visitService;
+    private final EvaluationService evaluationService;
+    private final OralService oralService;
+    private final ReportService reportService;
 
     @GetMapping("/")
     public String home() {
@@ -51,6 +55,10 @@ public class WebController {
     public String showEditForm(@PathVariable Long id, Model model) {
         model.addAttribute("apprentice", apprenticeService.getApprenticeById(id));
         model.addAttribute("company", companyService.getAllCompanies());
+        model.addAttribute("visit", visitService.getAllVisits());
+        model.addAttribute("evaluation", evaluationService.getAllEvaluations());
+        model.addAttribute("oral", oralService.getAllOrals());
+        model.addAttribute("report", reportService.getAllReports());
         model.addAttribute("apprenticeId", id);
         return "apprentice-edit";
     }
@@ -63,17 +71,34 @@ public class WebController {
     }
 
     @PostMapping
-    public String createApprentice(@Valid @ModelAttribute Apprentice apprentice, BindingResult result, RedirectAttributes redirectAttributes, Model model) {
+    public String createApprentice(@Valid @ModelAttribute Apprentice apprentice,
+                                   BindingResult result,
+                                   RedirectAttributes redirectAttributes,
+                                   Model model) {
         if (result.hasErrors()) {
             model.addAttribute("companies", companyService.getAllCompanies());
             return "apprentice-form";
         }
 
-        Apprentice createdApprentice = apprenticeService.createApprentice(apprentice);
+        try {
+            if (apprentice.getCompany() != null && apprentice.getCompany().getId() != null) {
+                apprentice.setCompany(companyService.getCompanyById(apprentice.getCompany().getId()));
+            }
 
-        redirectAttributes.addFlashAttribute("successMessage",
-                "Apprenti créé avec succès !");
-        return "redirect:/apprentices/" + createdApprentice.getId();
+            if (apprentice.getMaster() != null && apprentice.getMaster().getId() != null) {
+                apprentice.setMaster(masterService.getMasterById(apprentice.getMaster().getId()));
+            }
+
+            Apprentice created = apprenticeService.createApprentice(apprentice);
+
+            redirectAttributes.addFlashAttribute("successMessage", "Apprenti créé avec succès !");
+            return "redirect:/apprentices/" + created.getId();
+
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("companies", companyService.getAllCompanies());
+            return "apprentice-form";
+        }
     }
 
     @PostMapping("/{id}/update")
@@ -85,7 +110,15 @@ public class WebController {
             return "apprentice-edit";
         }
 
-        // apprenticeService.updateApprentice(id, apprentice);
+        try {
+            apprenticeService.updateApprentice(id, apprentice);
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("company", companyService.getAllCompanies());
+            model.addAttribute("apprentice", apprentice);
+            model.addAttribute("apprenticeId", id);
+            return "apprentice-edit";
+        }
 
         redirectAttributes.addFlashAttribute("successMessage",
                 "Apprenti modifié avec succès !");

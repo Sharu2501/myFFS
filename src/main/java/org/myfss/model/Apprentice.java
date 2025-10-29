@@ -1,6 +1,7 @@
 package org.myfss.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import org.myfss.model.enums.Major;
@@ -65,20 +66,25 @@ public class Apprentice {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Valid
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
     private Company company;
 
+    @Valid
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "masters")
     private Master master;
 
+    @Valid
     @OneToOne(cascade = CascadeType.ALL)
     private Mission mission;
 
+    @Valid
     @OneToOne(cascade = CascadeType.ALL)
     private Visit visit;
 
+    @Valid
     @OneToOne(cascade = CascadeType.ALL)
     private Evaluation evaluation;
 

@@ -2,6 +2,7 @@ package org.myfss.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.myfss.exception.CompanyNotFoundException;
 import org.myfss.model.Company;
 import org.myfss.repository.CompanyRepository;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,11 @@ public class CompanyService {
 
     public List<Company> getAllCompanies() {
         return companyRepository.findAll();
+    }
+
+    public Company getCompanyById(Long Id) {
+        return companyRepository.findById(Id)
+                .orElseThrow(() -> new CompanyNotFoundException(Id));
     }
 
     @Transactional

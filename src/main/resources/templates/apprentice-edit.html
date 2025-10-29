@@ -163,13 +163,13 @@
 
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="visitDate">Date de la visite <span class="required">*</span></label>
-                    <input type="date" id="visitDate" th:field="*{visit.date}" required>
+                    <label for="visitDate">Date de la visite </label>
+                    <input type="date" id="visitDate" th:field="*{visit.date}">
                 </div>
 
                 <div class="form-group">
-                    <label for="visitFormat">Format <span class="required">*</span></label>
-                    <select id="visitFormat" th:field="*{visit.format}" required>
+                    <label for="visitFormat">Format </label>
+                    <select id="visitFormat" th:field="*{visit.format}">
                         <option value="">Sélectionnez...</option>
                         <option th:value="${T(org.myfss.model.enums.Format).FACE_TO_FACE}">Présentiel</option>
                         <option th:value="${T(org.myfss.model.enums.Format).VIDEOCONFERENCE}">Visioconférence</option>
