@@ -70,7 +70,7 @@ public class Apprentice {
     private String phoneNumber;
 
     @Valid
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "company_id")
     private Company company;
 
