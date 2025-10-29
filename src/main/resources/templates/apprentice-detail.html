@@ -131,7 +131,9 @@
             </div>
             <div class="detail-row">
                 <span class="label">Format :</span>
-                <span class="value" th:text="${apprentice.visit.format}">-</span>
+                <span class="value"
+                      th:text="${apprentice.visit.format == T(org.myfss.model.enums.Format).FACE_TO_FACE ? 'Présentiel' : 'Visio'}">
+                </span>
             </div>
             <div class="detail-row long-text" th:if="${apprentice.visit.comments != null}">
                 <span class="label">Commentaires :</span>

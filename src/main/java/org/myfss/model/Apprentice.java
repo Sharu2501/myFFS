@@ -3,7 +3,10 @@ package org.myfss.model;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.myfss.model.enums.Major;
 
 @Entity
@@ -67,7 +70,7 @@ public class Apprentice {
     private String phoneNumber;
 
     @Valid
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
 

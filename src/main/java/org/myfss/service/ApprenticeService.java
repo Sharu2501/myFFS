@@ -100,10 +100,12 @@ public class ApprenticeService {
                 existingApprentice.setCompany(existingCompany);
             } else if (isValidNewCompany(updatedCompany)) {
                 updatedCompany.setId(null);
+                companyRepository.save(updatedCompany);
                 existingApprentice.setCompany(updatedCompany);
             }
         }
     }
+
     private void handleUpdateMaster(Apprentice updatedApprentice, Apprentice existingApprentice) {
         Master updatedMaster = updatedApprentice.getMaster();
         if (updatedMaster != null) {
@@ -278,16 +280,16 @@ public class ApprenticeService {
     }
 
     private boolean isValidNewMaster(Master master) {
-        return master.getFirstName() != null && !master.getFirstName() .trim().isEmpty()
-                && master.getLastName()!= null && !master.getLastName().trim().isEmpty()
-                && master.getEmail()!= null && !master.getEmail().trim().isEmpty()
+        return master.getFirstName() != null && !master.getFirstName().trim().isEmpty()
+                && master.getLastName() != null && !master.getLastName().trim().isEmpty()
+                && master.getEmail() != null && !master.getEmail().trim().isEmpty()
                 && master.getPhoneNumber() != null && !master.getPhoneNumber().trim().isEmpty()
                 && master.getPosition() != null && !master.getPosition().trim().isEmpty();
     }
 
     private boolean isValidNewMission(Mission mission) {
         return mission.getKeywords() != null && !mission.getKeywords().trim().isEmpty()
-                && mission.getProfession()!= null && !mission.getProfession().trim().isEmpty();
+                && mission.getProfession() != null && !mission.getProfession().trim().isEmpty();
     }
 
     private boolean isValidNewOral(Oral oral) {
