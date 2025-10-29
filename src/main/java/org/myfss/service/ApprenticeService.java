@@ -286,18 +286,6 @@ public class ApprenticeService {
         newApprentice.setEvaluation(null);
     }
 
-    private void handleInputCompany(Apprentice newApprentice) {
-        Company company = newApprentice.getCompany();
-
-        if (company.getId() != null) {
-            Company existingCompany = companyRepository.findById(company.getId())
-                    .orElseThrow(() -> new CompanyNotFoundException(company.getId()));
-            newApprentice.setCompany(existingCompany);
-        } else if (isValidNewCompany(company)) {
-            company.setId(null);
-        }
-    }
-
     private boolean isValidNewCompany(Company company) {
         if (company == null) return false;
 
