@@ -1,13 +1,18 @@
 package org.myfss.controller.rest;
 
+import com.fasterxml.jackson.databind.MappingIterator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.myfss.model.Apprentice;
+import org.myfss.model.dto.ApprenticeDTO;
 import org.myfss.service.ApprenticeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Tag(name = "Apprentices")
@@ -60,4 +65,6 @@ public class ApprenticeController {
     public List<Apprentice> searchApprentices(@RequestParam(required = false) String name, @RequestParam(required = false) String company, @RequestParam(required = false) String missionKeyword, @RequestParam(required = false) String academicYear) {
         return apprenticeService.searchApprentices(name, company, missionKeyword, academicYear);
     }
+
+
 }

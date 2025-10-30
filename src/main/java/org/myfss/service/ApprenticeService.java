@@ -4,7 +4,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.myfss.exception.ApprenticeExceptions.*;
 import org.myfss.model.*;
+import org.myfss.model.dto.ApprenticeDTO;
 import org.myfss.model.enums.Major;
+import org.myfss.model.mapper.ApprenticeMapper;
 import org.myfss.repository.ApprenticeRepository;
 import org.myfss.util.ValidationUtils;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,12 @@ public class ApprenticeService {
     public Apprentice getApprenticeById(Long id) {
         return apprenticeRepository.findById(id)
                 .orElseThrow(() -> new ApprenticeNotFoundException(id));
+    }
+
+    @Transactional
+    public Apprentice createApprentice2(Apprentice newApprentice) {
+        apprenticeRepository.save(newApprentice);
+        return newApprentice;
     }
 
     @Transactional
@@ -174,4 +182,24 @@ public class ApprenticeService {
         apprentice.setComments(apprentice.getComments() != null ? apprentice.getComments() : "");
         apprentice.setTutorFeedback(apprentice.getTutorFeedback() != null ? apprentice.getTutorFeedback() : "");
     }
+
+    @Transactional
+    public void importFromDTOList(List<ApprenticeDTO> apprenticeDTOs) {
+        for (ApprenticeDTO dto : apprenticeDTOs) {
+            Apprentice apprentice;
+            if (dto.getId() != null) {
+                apprentice = apprenticeRepository.findById(dto.getId()).orElse(null);
+            } else {
+                apprentice = null;
+            }
+            if (apprentice != null) {
+                Apprentice updatedApprentice = ApprenticeMapper.toEntity(dto);
+                updateApprentice(apprentice.getId(), updatedApprentice);
+            } else {
+                Apprentice newApprentice = ApprenticeMapper.toEntity(dto);
+                createApprentice(newApprentice);
+            }
+        }
+    }
+
 }

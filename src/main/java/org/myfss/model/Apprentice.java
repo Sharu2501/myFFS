@@ -17,6 +17,9 @@ public class Apprentice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    private Long version;
+
     @NotBlank(message = "Le programme est obligatoire.")
     @Size(max = 150, message = "Le nom du programme ne doit pas dépasser 150 caractères.")
     @Column(name = "program")

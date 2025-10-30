@@ -27,6 +27,22 @@
     align-items: end;
 }
 
+.json-section {
+    margin-top:2rem;
+    background: var(--white);
+    padding: 0.5rem 1.5rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+}
+
+.json-form {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) auto auto;
+    gap: 1rem;
+    align-items: end;
+}
+
 .search-input {
     width: 100%;
     padding: 0.625rem;

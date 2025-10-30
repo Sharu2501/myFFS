@@ -1,21 +1,34 @@
 package org.myfss.controller.web;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.MappingIterator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.myfss.model.*;
+import org.myfss.model.dto.ApprenticeDTO;
+import org.myfss.model.mapper.ApprenticeMapper;
 import org.myfss.service.ApprenticeService;
 import org.myfss.service.CompanyService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/apprentices")
 public class WebController {
 
+    private final ObjectMapper mapper = new ObjectMapper();
     private final ApprenticeService apprenticeService;
     private final CompanyService companyService;
 
@@ -115,4 +128,36 @@ public class WebController {
                 "Nouvelle année académique créée avec succès !");
         return "redirect:/apprentices";
     }
+
+    @PostMapping("/upload")
+    public String addJsonApprentice(@RequestParam("file") MultipartFile file,
+                                    RedirectAttributes redirectAttributes) {
+        if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Fichier vide !");
+            return "redirect:/apprentices";
+        }
+
+        try {
+            ObjectMapper mapper = new ObjectMapper()
+                    .registerModule(new JavaTimeModule())
+                    .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+            List<ApprenticeDTO> apprentices = mapper.readValue(
+                    file.getInputStream(),
+                    new TypeReference<List<ApprenticeDTO>>() {}
+            );
+            apprenticeService.importFromDTOList(apprentices);
+
+            redirectAttributes.addFlashAttribute("successMessage",
+                    "Tous les apprentis ont été créés ou mis à jour avec succès !");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "Erreur lors de l'import JSON : " + e.getMessage());
+        }
+
+        return "redirect:/apprentices";
+    }
+
+
+
 }

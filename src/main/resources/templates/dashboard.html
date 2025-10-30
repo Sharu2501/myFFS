@@ -16,6 +16,7 @@
         <div class="header-actions">
             <a th:href="@{/apprentices/new}" class="btn btn-primary">+ Ajouter un apprenti</a>
             <button type="button" class="btn btn-secondary" onclick="showAlumniPopup()">Voir archives</button>
+
         </div>
     </div>
 
@@ -79,6 +80,16 @@
             </tbody>
         </table>
     </div>
+    <div class="search-section">
+        <form th:action="@{/apprentices/upload}" class = "search-form" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <input class="form-control" type="file" name="file" required>
+            </div>
+            <button type="submit" class="btn btn-secondary">
+                📁 Charger le fichier
+            </button>
+        </form>
+    </div>
 
     <div id="alumniModal" class="modal">
         <div class="modal-content">
@@ -116,6 +127,10 @@
 <script>
     function showAlumniPopup() {
         document.getElementById('alumniModal').style.display = 'block';
+    }
+
+    function loadJson(){
+
     }
 
     function closeAlumniPopup() {
