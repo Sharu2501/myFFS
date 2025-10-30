@@ -23,6 +23,8 @@ public class ApprenticeService {
     private final MissionService missionService;
     private final OralService oralService;
     private final ReportService reportService;
+    private final VisitService visitService;
+    private final EvaluationService evaluationService;
 
     public List<Apprentice> getAllApprentices() {
         return apprenticeRepository.findByMajorNot(Major.ALUMNI);
@@ -65,29 +67,23 @@ public class ApprenticeService {
         existingApprentice.setTutorFeedback(updatedApprentice.getTutorFeedback());
 
         if (updatedApprentice.getCompany() != null) {
-            Company company = updatedApprentice.getCompany().getId() != null ?
-                    companyService.getCompanyById(updatedApprentice.getCompany().getId()) :
-                    companyService.createCompany(updatedApprentice.getCompany());
-            existingApprentice.setCompany(company);
+            Company company = existingApprentice.getCompany();
+            companyService.updateCompany(company.getId(), updatedApprentice.getCompany());
         }
 
         if (updatedApprentice.getMaster() != null) {
-            Master master = updatedApprentice.getMaster().getId() != null ?
-                    masterService.getMasterById(updatedApprentice.getMaster().getId()) :
-                    masterService.createMaster(updatedApprentice.getMaster());
-            existingApprentice.setMaster(master);
+            Master master = updatedApprentice.getMaster();
+            masterService.updateMaster(master.getId(), updatedApprentice.getMaster());
         }
 
         if (updatedApprentice.getMission() != null) {
-            Mission mission = updatedApprentice.getMission().getId() != null ?
-                    missionService.getMissionById(updatedApprentice.getMission().getId()) :
-                    missionService.createMission(updatedApprentice.getMission());
-            existingApprentice.setMission(mission);
+            Mission mission = updatedApprentice.getMission();
+            missionService.updateMission(mission.getId(), updatedApprentice.getMission());
         }
 
         if (updatedApprentice.getVisit() != null) {
             Visit visit = updatedApprentice.getVisit();
-            existingApprentice.setVisit(visit);
+            visitService.updateVisit(visit.getId(), updatedApprentice.getVisit());
         }
 
         if (updatedApprentice.getEvaluation() != null) {
@@ -106,7 +102,8 @@ public class ApprenticeService {
                 }
                 eval.setReport(report);
             }
-            existingApprentice.setEvaluation(eval);
+
+            evaluationService.updateEvaluation(eval.getId(), updatedApprentice.getEvaluation());
         }
 
         return apprenticeRepository.save(existingApprentice);

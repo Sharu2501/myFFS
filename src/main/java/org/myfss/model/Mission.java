@@ -19,6 +19,10 @@ public class Mission {
 
     @NotBlank(message = "Les mots-clés sont obligatoire.")
     @Size(max = 100, message = "Les mots-clés ne doivent pas dépasser 100 caractères.")
+    @Pattern(
+            regexp = "^[A-Za-z0-9À-ÖØ-öø-ÿ\\-]+(,\\s*[A-Za-z0-9À-ÖØ-öø-ÿ\\-]+)*$",
+            message = "Les mots-clés doivent être séparés par des virgules (ex: 'API, SpringBoot, REST') et ne doivent contenir que des lettres, chiffres ou tirets."
+    )
     @Column(name = "keywords")
     private String keywords;
 
