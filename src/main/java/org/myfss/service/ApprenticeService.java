@@ -8,6 +8,7 @@ import org.myfss.model.*;
 import org.myfss.model.enums.Format;
 import org.myfss.model.enums.Major;
 import org.myfss.repository.ApprenticeRepository;
+import org.myfss.util.ApprenticeCSVParser;
 import org.myfss.util.ValidationUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -189,62 +190,7 @@ public class ApprenticeService {
             while ((line = reader.readNext()) != null) {
                 if (skipHeader) { skipHeader = false; continue; }
 
-                Apprentice apprentice = new Apprentice();
-                apprentice.setProgram(line[0]);
-                apprentice.setAcademicYear(line[1]);
-                apprentice.setMajor(Major.valueOf(line[2]));
-                apprentice.setLastName(line[3]);
-                apprentice.setFirstName(line[4]);
-                apprentice.setEmail(line[5].trim());
-                apprentice.setPhoneNumber(line[6]);
-
-                Company company = new Company();
-                company.setSocialReason(line[7]);
-                company.setAddress(line[8]);
-                apprentice.setCompany(company);
-
-                Master master = new Master();
-                master.setLastName(line[9]);
-                master.setFirstName(line[10]);
-                master.setEmail(line[11]);
-                master.setPhoneNumber(line[12]);
-                master.setPosition(line[13]);
-                apprentice.setMaster(master);
-
-                Mission mission = new Mission();
-                mission.setKeywords(line[14]);
-                mission.setProfession(line[15]);
-                mission.setComments(line[16]);
-                apprentice.setMission(mission);
-
-                Visit visit = new Visit();
-                if (!line[18].isBlank()) {
-                    visit.setFormat(Format.valueOf(line[18].trim().toUpperCase()));
-                } else {
-                    visit.setFormat(null);
-                }
-                visit.setComments(line[19]);
-                apprentice.setVisit(visit);
-
-                Evaluation evaluation = new Evaluation();
-
-                Report report = new Report();
-                report.setTheme(line[20]);
-                if (!line[21].isBlank()) report.setGrade(Double.parseDouble(line[21]));
-                report.setComments(line[22]);
-                evaluation.setReport(report);
-
-                Oral oral = new Oral();
-                if (!line[23].isBlank()) oral.setDate(LocalDate.parse(line[23]));
-                if (!line[24].isBlank()) oral.setGrade(Double.parseDouble(line[24]));
-                oral.setComments(line[25]);
-                evaluation.setOral(oral);
-
-                apprentice.setEvaluation(evaluation);
-
-                apprentice.setComments(line[26]);
-                apprentice.setTutorFeedback(line[27]);
-
+                Apprentice apprentice = ApprenticeCSVParser.parseLine(line);
                 createApprentice(apprentice);
                 imported.add(apprentice);
             }
