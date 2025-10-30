@@ -139,8 +139,8 @@ Ensuite, plusieurs fonctionnalités du front ont dû être réajustées pour cor
 Ces adaptations nous ont permis de mieux comprendre la logique des annotations JPA, la portabilité du code Java et l’importance d’avoir une architecture bien pensée dès le début.
 
 ### c) Quelle a été la contribution de chaque membre de l'équipe ?
-- Elhadj : création des modèles, gestion de la base de données, des scripts SQL et de quelques fonctions du contrôleur.
-- Sahkana : développement des services front, gestion des erreurs et des exceptions liées à la saisie utilisateur (vérification des formats et messages d’erreur).
+- Elhadj : création des modèles, gestion de la base de données, des scripts SQL, de quelques services, quelques fonctions du contrôleur et le développement du bonus.
+- Sahkana : développement des services front, service et gestion des erreurs et des exceptions liées à la saisie utilisateur (vérification des formats et messages d’erreur).
 - Lucas : développement des contrôleurs principaux et des exceptions liées à la base de données, ainsi que la coordination entre backend et front.
 
 Même si chacun avait une partie précise, nous avons tous participé au front-end pour garder une cohérence dans le rendu global.
@@ -149,11 +149,9 @@ Même si chacun avait une partie précise, nous avons tous participé au front-e
 - La gestion des relations JPA entre entités et mapping précis
 - L'utilisation de Spring MVC + Thymeleaf pour créer des interfaces web dynamiques 
 - La mise en place de la sécurité avec Spring Security et gestion des rôles utilisateurs
-- La collaboration en équipe et l’organisation du code pour rendre un projet fonctionnel du backend au front.
 
 ### e) Les fonctionnalités que vous n'avez pas eu le temps de mettre en œuvre et pourquoi.
-- Le bonus d’export CSV des apprentis et missions. 
-- Une interface plus ergonomique et esthétique.
+- Une interface plus ergonomique et esthétique avec une librairie externe comme angular. Nous avons commencé mais il y a une trop grosse différence de qualité entre le frontend angular et thymeleaf donc nous avons fait le choix de ne pas l'intégrer
 
 On a pas eu l'occasion de réaliser par choix car nous avons choisi de prioriser la stabilité des fonctionnalités principales et surtout la qualité du code.
 
@@ -161,11 +159,11 @@ On a pas eu l'occasion de réaliser par choix car nous avons choisi de prioriser
 
 NNous avons essayé de respecter au mieux les principes SOLID dans la structure du projet :
 - **Single Responsibility (SRP)** : chaque classe (Service, Controller, Repository) a un rôle bien défini.
-- **Open/Closed (OCP)** : Les services sont extensibles via des méthodes supplémentaires sans modification des existantes. 
+- **Open/Closed (OCP)** : Il y a une réelles dissociations entre les classes, elles sont découplés grace à des interfaces bien placés
 - **Liskov Substitution (LSP)** : les entités peuvent être utilisées sans casser la logique globale.
 - **Interface Segregation (ISP)** : Les interfaces n’ont pas de méthodes inutiles.
 - **Dependency Inversion (DIP)** : Utilisation de l’injection de dépendances avec @RequiredArgsConstructor pour les dépendances abstraites (Service, Repository)
 
 ### Conclusion
 Ce projet nous a permis de vraiment comprendre le fonctionnement d’une application Spring Boot complète, du backend jusqu’au front.
-On a appris à gérer les exceptions, à valider les saisies utilisateur et à maintenir un code propre et organisé.
+On a appris à gérer les exceptions, à valider les saisies utilisateur et à maintenir un code propre et organisé. Un axe principale de ce projet à été la maintenabilité du projet, nous avons donné ce que nous pouvons pour essayer de permetttre une maintenabilité durable et une gestion des bug la plus simple possible. Nous avons aussi appris / consolidé nos connaissances en Gestion de Projet ainsi que l'utilisation d'application de versioning comme git. 
