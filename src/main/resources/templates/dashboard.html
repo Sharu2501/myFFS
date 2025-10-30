@@ -8,12 +8,14 @@
     <link rel="stylesheet" th:href="@{/css/dashboard.css}">
 </head>
 <body>
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="~{fragments/header :: header}"></div>
 
 <div class="container">
     <div th:if="${successMessage != null}" class="alert alert-success">
         <p th:text="${successMessage}"></p>
     </div>
+
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
 
     <div class="header-section">
         <h2>Gestion des apprentis</h2>

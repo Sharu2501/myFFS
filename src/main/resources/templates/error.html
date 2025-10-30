@@ -8,6 +8,8 @@
 </head>
 <body>
 
+<div th:replace="~{fragments/header :: header}"></div>
+
 <h2>Oups !</h2>
 <p th:text="${errorMessage}">Une erreur est survenue.</p>
 <a th:href="@{/apprentices}">Retour au tableau de bord</a>
