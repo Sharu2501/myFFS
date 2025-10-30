@@ -3,7 +3,7 @@ package org.myfss.controller.rest;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.myfss.model.Report;
-import org.myfss.service.ReportService;
+import org.myfss.service.ReportServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ReportController {
 
-    private final ReportService reportService;
+    private final ReportServiceImpl reportServiceImpl;
 
     @GetMapping("/{id}")
     public Report getReportById(@PathVariable Long id) {
-        return reportService.getReportById(id);
+        return reportServiceImpl.getReportById(id);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<Report> updateReport(@PathVariable Long id, @RequestBody Report report) {
-        Report updated = reportService.updateReport(id, report);
+        Report updated = reportServiceImpl.updateReport(id, report);
         return ResponseEntity.ok(updated);
     }
 }

@@ -3,8 +3,8 @@ package org.myfss.controller.web;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.myfss.model.*;
-import org.myfss.service.ApprenticeService;
-import org.myfss.service.CompanyService;
+import org.myfss.service.ApprenticeServiceImpl;
+import org.myfss.service.CompanyServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,8 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/apprentices")
 public class WebController {
 
-    private final ApprenticeService apprenticeService;
-    private final CompanyService companyService;
+    private final ApprenticeServiceImpl apprenticeServiceImpl;
+    private final CompanyServiceImpl companyServiceImpl;
 
     @GetMapping("/")
     public String home() {
@@ -27,14 +27,14 @@ public class WebController {
 
     @GetMapping
     public String listApprentices(Model model) {
-        model.addAttribute("apprentices", apprenticeService.getAllApprentices());
-        model.addAttribute("alumni", apprenticeService.getAllAlumni());
+        model.addAttribute("apprentices", apprenticeServiceImpl.getAllApprentices());
+        model.addAttribute("alumni", apprenticeServiceImpl.getAllAlumni());
         return "dashboard";
     }
 
     @GetMapping("/search")
     public String searchApprentices(@RequestParam(required = false) String name, @RequestParam(required = false) String company, @RequestParam(required = false) String missionKeyword, @RequestParam(required = false) String academicYear, Model model) {
-        model.addAttribute("apprentices", apprenticeService.searchApprentices(name, company, missionKeyword, academicYear));
+        model.addAttribute("apprentices", apprenticeServiceImpl.searchApprentices(name, company, missionKeyword, academicYear));
         model.addAttribute("searchName", name);
         model.addAttribute("searchCompany", company);
         model.addAttribute("searchMission", missionKeyword);
@@ -44,14 +44,14 @@ public class WebController {
 
     @GetMapping("/{id}")
     public String viewApprentice(@PathVariable Long id, Model model) {
-        model.addAttribute("apprentice", apprenticeService.getApprenticeById(id));
+        model.addAttribute("apprentice", apprenticeServiceImpl.getApprenticeById(id));
         return "apprentice-detail";
     }
 
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable Long id, Model model) {
-        model.addAttribute("apprentice", apprenticeService.getApprenticeById(id));
-        model.addAttribute("company", companyService.getAllCompanies());
+        model.addAttribute("apprentice", apprenticeServiceImpl.getApprenticeById(id));
+        model.addAttribute("company", companyServiceImpl.getAllCompanies());
         model.addAttribute("apprenticeId", id);
         return "apprentice-edit";
     }
@@ -59,19 +59,19 @@ public class WebController {
     @GetMapping("/new")
     public String showCreateForm(Model model) {
         model.addAttribute("apprentice", new Apprentice());
-        model.addAttribute("companies", companyService.getAllCompanies());
+        model.addAttribute("companies", companyServiceImpl.getAllCompanies());
         return "apprentice-form";
     }
 
     @PostMapping
     public String createApprentice(@Valid @ModelAttribute("apprentice") Apprentice apprentice, BindingResult result, RedirectAttributes redirectAttributes, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("companies", companyService.getAllCompanies());
+            model.addAttribute("companies", companyServiceImpl.getAllCompanies());
             return "apprentice-form";
         }
 
         try {
-            Apprentice created = apprenticeService.createApprentice(apprentice);
+            Apprentice created = apprenticeServiceImpl.createApprentice(apprentice);
 
             redirectAttributes.addFlashAttribute("successMessage",
                     "Apprenti créé avec succès !");
@@ -79,7 +79,7 @@ public class WebController {
             return "redirect:/apprentices/" + created.getId();
 
         } catch (Exception e) {
-            model.addAttribute("companies", companyService.getAllCompanies());
+            model.addAttribute("companies", companyServiceImpl.getAllCompanies());
             model.addAttribute("errorMessage", e.getMessage());
             return "apprentice-form";
         }
@@ -88,20 +88,20 @@ public class WebController {
     @PostMapping("/{id}/update")
     public String updateApprentice(@PathVariable Long id, @Valid @ModelAttribute("apprentice") Apprentice apprentice, BindingResult result, RedirectAttributes redirectAttributes, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("companies", companyService.getAllCompanies());
+            model.addAttribute("companies", companyServiceImpl.getAllCompanies());
             model.addAttribute("apprenticeId", id);
             return "apprentice-edit";
         }
 
         try {
-            apprenticeService.updateApprentice(id, apprentice);
+            apprenticeServiceImpl.updateApprentice(id, apprentice);
 
             redirectAttributes.addFlashAttribute("successMessage",
                     "Apprenti modifié avec succès !");
             return "redirect:/apprentices/" + id;
 
         } catch (Exception e) {
-            model.addAttribute("companies", companyService.getAllCompanies());
+            model.addAttribute("companies", companyServiceImpl.getAllCompanies());
             model.addAttribute("apprenticeId", id);
             model.addAttribute("errorMessage", e.getMessage());
             return "apprentice-edit";
@@ -110,7 +110,7 @@ public class WebController {
 
     @PostMapping("/new-year")
     public String createNewYear(RedirectAttributes redirectAttributes) {
-        apprenticeService.createNewAcademicYear();
+        apprenticeServiceImpl.createNewAcademicYear();
 
         redirectAttributes.addFlashAttribute("successMessage",
                 "Nouvelle année académique créée avec succès !");
@@ -120,7 +120,7 @@ public class WebController {
     @PostMapping("/import")
     public String importCSV(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         try {
-            int count = apprenticeService.importApprenticesFromCSV(file);
+            int count = apprenticeServiceImpl.importApprenticesFromCSV(file);
             redirectAttributes.addFlashAttribute("successMessage", count + " apprentis importés avec succès !");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Erreur lors de l'import : " + e.getMessage());

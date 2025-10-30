@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.myfss.model.Apprentice;
 import org.myfss.model.enums.Major;
 import org.myfss.repository.ApprenticeRepository;
-import org.myfss.service.ApprenticeService;
+import org.myfss.service.ApprenticeServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,13 +18,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ApprenticeServiceTests {
+class ApprenticeServiceImplTests {
 
     @Mock
     private ApprenticeRepository apprenticeRepository;
 
     @InjectMocks
-    private ApprenticeService apprenticeService;
+    private ApprenticeServiceImpl apprenticeServiceImpl;
 
     private Apprentice apprentice;
 
@@ -43,7 +43,7 @@ class ApprenticeServiceTests {
         when(apprenticeRepository.findByMajorNot(Major.ALUMNI))
                 .thenReturn(List.of(apprentice));
 
-        List<Apprentice> result = apprenticeService.getAllApprentices();
+        List<Apprentice> result = apprenticeServiceImpl.getAllApprentices();
 
         assertThat(result).containsExactly(apprentice);
         verify(apprenticeRepository).findByMajorNot(Major.ALUMNI);
@@ -53,7 +53,7 @@ class ApprenticeServiceTests {
     void getAllApprenticesAndAlumni_shouldReturnAll() {
         when(apprenticeRepository.findAll()).thenReturn(List.of(apprentice));
 
-        List<Apprentice> result = apprenticeService.getAllApprenticesAndAlumni();
+        List<Apprentice> result = apprenticeServiceImpl.getAllApprenticesAndAlumni();
 
         assertThat(result).containsExactly(apprentice);
         verify(apprenticeRepository).findAll();
@@ -63,7 +63,7 @@ class ApprenticeServiceTests {
     void getApprenticeById_shouldReturnApprentice() {
         when(apprenticeRepository.findById(1L)).thenReturn(Optional.of(apprentice));
 
-        Apprentice result = apprenticeService.getApprenticeById(1L);
+        Apprentice result = apprenticeServiceImpl.getApprenticeById(1L);
 
         assertThat(result).isEqualTo(apprentice);
     }

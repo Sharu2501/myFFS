@@ -6,7 +6,7 @@ INSERT INTO companies (social_reason, address, access_information) VALUES ('Tech
 -- ==============================
 --   MAÎTRES D’APPRENTISSAGE
 -- ==============================
-INSERT INTO masters (last_name, first_name, position, email, phone_number, comments) VALUES ('Dupont', 'Jean', 'Chef de projet', 'jean.dupont@techcorp.com', '0601020304', 'Très bon contact avec les étudiants'),('Martin', 'Sophie', 'Responsable R&D', 'sophie.martin@innovshoes.com', '0611223344','Experte dans son domaine'),('Durand', 'Paul', 'Tech Lead', 'paul.durand@datasolutions.com', '0622334455','Excellent accompagnement technique'), ('Morel', 'Clara', 'Manager IT', 'clara.morel@greensoft.com', '0633445566','Toujours disponible pour ses apprentis'), ('Rossi', 'Marco', 'Architecte logiciel', 'marco.rossi@cyberlink.com', '0644556677','Très exigeant mais pédagogue');
+INSERT INTO masters (last_name, first_name, position, email, phone_number, comments) VALUES ('Dupont', 'Jean', 'Chef de projet', 'jean.dupont@techcorp.com', '0601020304', 'Très bon contact avec les étudiants'),('Martin', 'Sophie', 'Responsable Recherche et Développement', 'sophie.martin@innovshoes.com', '0611223344','Experte dans son domaine'),('Durand', 'Paul', 'Tech Lead', 'paul.durand@datasolutions.com', '0622334455','Excellent accompagnement technique'), ('Morel', 'Clara', 'Manager IT', 'clara.morel@greensoft.com', '0633445566','Toujours disponible pour ses apprentis'), ('Rossi', 'Marco', 'Architecte logiciel', 'marco.rossi@cyberlink.com', '0644556677','Très exigeant mais pédagogue');
 
 -- ==============================
 --   ORALS
