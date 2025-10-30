@@ -19,7 +19,7 @@ public class Company {
 
     @NotBlank(message = "La raison sociale est obligatoire.")
     @Size(max = 50, message = "La raison sociale ne doit pas dépasser 50 caractères.")
-    @Pattern(regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ'\\- ]+$", message = "Le postion contient des caractères invalides.")
+    @Pattern(regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ'\\- ]+$", message = "La raison sociale contient des caractères invalides.")
     @Column(name = "social_reason")
     private String socialReason;
 

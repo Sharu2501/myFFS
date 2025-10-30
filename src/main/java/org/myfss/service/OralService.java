@@ -9,6 +9,7 @@ import org.myfss.util.ValidationUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +26,11 @@ public class OralService {
     public Oral updateOral(Long id, Oral updatedOral) {
         Oral existingOral = getOralById(id);
 
+        if (existingOral.getComments() != null) {
+            validateOralRequiredFields(updatedOral);
+        }
+
         applyChanges(existingOral, updatedOral);
-        validateOralRequiredFields(updatedOral);
 
         return oralRepository.save(existingOral);
     }
@@ -43,15 +47,15 @@ public class OralService {
     }
 
     private void applyChanges(Oral target, Oral source) {
-        if (!source.getDate().equals(target.getDate())) {
+        if (source.getDate() != null && !Objects.equals(source.getDate(), target.getDate())) {
             target.setDate(source.getDate());
         }
 
-        if (!source.getGrade().equals(target.getGrade())) {
+        if (source.getGrade() != null && !Objects.equals(source.getGrade(), target.getGrade())) {
             target.setGrade(source.getGrade());
         }
 
-        if (!source.getComments().equals(target.getComments())) {
+        if (source.getComments() != null) {
             target.setComments(source.getComments());
         }
     }

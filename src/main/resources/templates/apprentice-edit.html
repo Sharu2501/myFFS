@@ -20,6 +20,10 @@
         <h2>Modifier un apprenti</h2>
     </div>
 
+    <div th:if="${errorMessage}" class="form-error" style="color:red; margin-bottom: 1em;">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
     <form th:action="@{/apprentices/{id}/update(id=${apprenticeId})}" method="post" th:object="${apprentice}"
           class="apprentice-form">
 

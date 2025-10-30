@@ -9,6 +9,7 @@ import org.myfss.util.ValidationUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +26,11 @@ public class ReportService {
     public Report updateReport(Long id, Report updatedReport) {
         Report existingReport = getReportById(id);
 
+        if (existingReport.getTheme() != null) {
+            validateReportRequiredFields(existingReport);
+        }
+
         applyChanges(existingReport, updatedReport);
-        validateReportRequiredFields(updatedReport);
 
         return reportRepository.save(existingReport);
     }
@@ -43,15 +47,15 @@ public class ReportService {
     }
 
     private void applyChanges(Report target, Report source) {
-        if (!source.getTheme().equals(target.getTheme())) {
+        if (source.getTheme() != null) {
             target.setTheme(source.getTheme());
         }
 
-        if (!source.getGrade().equals(target.getGrade())) {
+        if (source.getGrade() != null && !Objects.equals(source.getGrade(), target.getGrade())) {
             target.setGrade(source.getGrade());
         }
 
-        if (!source.getComments().equals(target.getComments())) {
+        if (source.getComments() != null) {
             target.setComments(source.getComments());
         }
     }
