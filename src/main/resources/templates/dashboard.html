@@ -115,7 +115,19 @@
             </table>
         </div>
     </div>
+
+    <div class="import-section">
+        <h3>Importer un fichier CSV</h3>
+        <p>Ajoutez ou mettez à jour des apprentis via un fichier CSV formaté correctement.</p>
+        <form th:action="@{/apprentices/import}" method="post" enctype="multipart/form-data" class="inline-form">
+            <label for="file" class="file-label">Parcourir...</label>
+            <input type="file" name="file" id="file" accept=".csv" required>
+            <span id="file-name" class="file-name">Aucun fichier sélectionné</span>
+            <button type="submit" class="btn btn-secondary">Importer CSV</button>
+        </form>
+    </div>
 </div>
+
 </body>
 </html>
 
@@ -132,4 +144,15 @@
         let modal = document.getElementById('alumniModal');
         if (event.target === modal) modal.style.display = "none";
     }
+    const fileInput = document.getElementById('file');
+    const fileName = document.getElementById('file-name');
+
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+            fileName.textContent = fileInput.files[0].name;
+        } else {
+            fileName.textContent = "Aucun fichier sélectionné";
+        }
+    });
+
 </script>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -113,6 +114,17 @@ public class WebController {
 
         redirectAttributes.addFlashAttribute("successMessage",
                 "Nouvelle année académique créée avec succès !");
+        return "redirect:/apprentices";
+    }
+
+    @PostMapping("/import")
+    public String importCSV(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+        try {
+            int count = apprenticeService.importApprenticesFromCSV(file);
+            redirectAttributes.addFlashAttribute("successMessage", count + " apprentis importés avec succès !");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Erreur lors de l'import : " + e.getMessage());
+        }
         return "redirect:/apprentices";
     }
 }
