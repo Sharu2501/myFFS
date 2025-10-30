@@ -11,6 +11,10 @@
 <div th:replace="fragments/header :: header"></div>
 
 <div class="container">
+    <div th:if="${successMessage != null}" class="alert alert-success">
+        <p th:text="${successMessage}"></p>
+    </div>
+
     <div class="header-section">
         <h2>Gestion des apprentis</h2>
         <div class="header-actions">

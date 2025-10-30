@@ -225,6 +225,23 @@
     border: none;
 }
 
+.alert {
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.alert-success {
+    background-color: #daf5d4;
+    color: #2e7d32;
+    border-left: 5px solid #2e7d32;
+}
+
 @media (max-width: 768px) {
     .modal-content {
         width: 95%;
