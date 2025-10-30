@@ -44,8 +44,8 @@ Ce dossier regroupe tous les contrôleurs de l’application séparés selon leu
 - **rest** contient les contrôleurs REST (API) pour chaque entité. Ces classes gèrent les requêtes HTTP entre le front et le backend et renvoient les données au format JSON. 
 On y trouve par exemple : ApprenticeController, CompanyController, EvaluationController, MasterController, MissionController, OralController, ReportController et VisiteController.
 
-Chaque contrôleur REST correspond à une entité du modèle et fait le lien entre les services et la base de données via les repositories.
-- **web** contient les contrôleurs liés aux pages web rendues avec Thymeleaf.
+Chaque contrôleur REST correspond à une entité du modèle. Le lien entre les services et la base de données se fait via les repositories.
+- **web** contient les contrôleurs liés aux pages web rendues avec Thymeleaf. Les retours sont des String pour faire les redirections de thymeleaf.
 Avec notamment : 
 - **LoginController** pour la gestion de la connexion et de la session tuteur.
 - **WebController** pour la navigation entre les différentes pages (détails, ajout, modification, archives, etc).
@@ -56,12 +56,14 @@ Elles sont utilisées pour :
 - Gérer les erreurs spécifiques à chaque entité (ex. : ApprenticeNotFoundException). 
 - Contrôler les erreurs de validation des saisies. 
 - Fournir des messages d’erreur clairs à l’utilisateur.
+- Les exceptions facilitent les maintenances futur.
 Ces exceptions sont ensuite gérées globalement pour renvoyer une réponse adaptée côté front.
 ---
 **model**
 Ce dossier contient toutes les entités JPA du projet, c’est-à-dire les classes qui représentent les tables dans la base de données.
 Les principales entités sont : Apprentice, Company, Evaluation, Master, Mission, Oral, Report et Visite.
 Chaque entité contient ses annotations JPA (@Entity, @Id, @GeneratedValue, @ManyToOne, etc.) pour définir les relations entre les tables (par exemple, un Apprentice peut être lié à une Company ou un Master).
+Ce dossier contient aussi les dto et de mapper transformer les entités en dto et inversement. Les dtos sont utilisés surtout pour le bonus ou on utilise les dto pour sérialiser les json. Le mapper utilise des builder, une facon plus pratique de construire un objet, une alternative aux constructeurs
 ---
 **model/enums**
 
