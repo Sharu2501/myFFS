@@ -5,7 +5,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.myfss.exception.ApprenticeExceptions.*;
 import org.myfss.model.*;
-import org.myfss.model.enums.Format;
 import org.myfss.model.enums.Major;
 import org.myfss.repository.ApprenticeRepository;
 import org.myfss.util.ApprenticeCSVParser;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStreamReader;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
