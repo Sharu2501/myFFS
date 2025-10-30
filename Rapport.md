@@ -60,6 +60,7 @@ Elles sont utilisées pour :
 Ces exceptions sont ensuite gérées globalement pour renvoyer une réponse adaptée côté front.
 ---
 **model**
+
 Ce dossier contient toutes les entités JPA du projet, c’est-à-dire les classes qui représentent les tables dans la base de données.
 Les principales entités sont : Apprentice, Company, Evaluation, Master, Mission, Oral, Report et Visite.
 Chaque entité contient ses annotations JPA (@Entity, @Id, @GeneratedValue, @ManyToOne, etc.) pour définir les relations entre les tables (par exemple, un Apprentice peut être lié à une Company ou un Master).
@@ -71,9 +72,11 @@ Ce sous-dossier contient les énumérations utilisées dans les entités (par ex
 Elles permettent de standardiser certaines valeurs au lieu d’utiliser de simples chaînes de caractères, ce qui réduit les erreurs et améliore la lisibilité du code.
 ---
 **repository**
+
 Ce dossier regroupe tous les repositories JPA (interfaces qui héritent de JpaRepository).
 Chaque entité a son repository dédié (ApprenticeRepository, CompanyRepository, etc.) qui permet d’effectuer les opérations CRUD directement sur la base de données.
 Les repositories sont injectés dans les services grâce à @RequiredArgsConstructor, ce qui rend le code plus propre et mieux structuré.
+
 ---
 
 **service**
